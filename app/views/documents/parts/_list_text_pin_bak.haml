@@ -1,0 +1,9 @@
+-if text_pin_hash_arr.count != 0
+  %ul{:class=>"discuss"}
+    -text_pin_hash_arr.each do |text_pin_and_children|
+      %li
+        %div.body
+          -text_pin = text_pin_and_children[:text_pin]
+          =render :partial=>"documents/parts/detail_text_pin",:locals=>{:document=>@document,:text_pin=>text_pin}
+        -text_pin_hash_arr = text_pin_and_children[:children]
+        =render :partial=>"documents/parts/list_text_pin",:locals=>{:text_pin_hash_arr=>text_pin_hash_arr}

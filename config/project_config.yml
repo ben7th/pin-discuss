@@ -1,0 +1,14 @@
+development:
+  name: discuss
+  url: http://192.168.1.8:6004/
+  master_url: http://192.168.1.8:3000/
+
+test:
+  name: discuss
+  url: http://192.168.1.8:6004/
+  master_url: http://192.168.1.8:3000/
+
+production:
+  name: discuss
+  url: http://2010.mindpin.com/discuss
+  master_url: http://2010.mindpin.com/config

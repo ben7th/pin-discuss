@@ -1,0 +1,19 @@
+-@diffs.each do |diff|
+  .diff_message
+    %span.diff_name
+      =diff.new_name
+    %span.diff_kind
+      =diff.kind
+      =diff.mime_type
+
+-@diffs.each do |diff|
+  .diff_content
+    -if diff.mime_type.match("image")
+      =diff_images(diff)
+    -else
+      =diff_texts(diff.diff)
+:css
+  .diff_sub{background-color:#FFDDDD}
+  .diff_add{background-color:#DDFFDD}
+  .diff_no_changed{background-color:#FFFFFF}
+  .diff_content{border:#EEEEEE solid 1px;margin:10px 0px 10px 0px;}

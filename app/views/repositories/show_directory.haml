@@ -1,0 +1,11 @@
+-repo_name = params[:repo_name]
+
+.padding10
+  =link_to "<em>&lt;</em> 返回版本库首页", show_repo_root_path
+  .clearfix
+    %h3.fleft="版本库 目录 #{File.join(params[:path])} 的文件列表"
+    .fright=link_to_remote "<span>上传文件</span>",:url=>add_repo_file_path(:repo_name=>repo_name),:method=>"get",:html=>{:class=>'minibutton'}
+    .fright=link_to "提交记录",repo_commits_path(:path=>params[:path])
+  .margint10
+    -mplist @repository_file_infos,:for=>RepositoryFileInfo do |repository_file_info|
+      =render :partial=>"/repositories/parts/info_repository_file",:locals=>{:repository_file_info=>repository_file_info,:repo_name=>repo_name}

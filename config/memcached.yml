@@ -1,0 +1,20 @@
+test:
+  ttl: 604800
+  namespace: mindpin_test_lifei
+  sessions: false
+  debug: false
+  servers: localhost:11211
+
+development:
+  ttl: 604800
+  namespace: mindpin_development
+  sessions: false
+  debug: true
+  servers: localhost:11211
+
+production:
+  ttl: 604800
+  namespace: mindpin_production
+  sessions: false
+  debug: false
+  servers: localhost:11211

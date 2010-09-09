@@ -1,0 +1,11 @@
+-user = User.find_by_email(repo_commit.email)
+.padding10.clearfix{:style=>'border:solid 1px #ccc;'}
+  .marginb5.font14
+    =repo_commit.message
+  .userinfo.clearfix
+    .fleft.marginr10.paddingt2
+      =logo user,:tiny
+    .fleft.bold
+      .font14=repo_commit.author
+      .date=time_str_by_today repo_commit.date
+      =link_to "查看提交详情",show_commit_path(:commit_id=>repo_commit.id)

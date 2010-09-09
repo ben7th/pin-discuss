@@ -1,0 +1,38 @@
+IN APP named demo:
+
+<mp-list for='apple'>
+  <% apples.each do |a| -%>
+    <mp-li id="<%=a.id%>">
+      something about a .... blahblahblah....
+    </mp-li>
+  <% end -%>
+</mp-list>
+
+<mp-li-remove li_id='xxxxx' remote_url='/xxx/xxx'>删除</mp-li-remove>
+
+IN EIP:
+
+<ul class='mplist apples'>
+  <li id='app_demo_apple_1' class='apple'>
+    something about a1 .... blahblahblah....
+  </li>
+  <li id='app_demo_apple_2' class='apple'>
+    something about a2 .... blahblahblah....
+  </li>
+</ul>
+
+-------------------------------------------------------------------
+
+IN APP:
+
+<mp-show-box box_id='box_id'>点这里显示对话框</mp-show-box>
+<mp-box id='box_id'>
+  <mp-box-title>对话框标题</mp-box-title>
+  <mp-box-content>
+    <form>....</form>
+    <!-- 不需要写 submit -->
+  </mp-box-content>
+  <mp-box-button value='提交' form_id='form_id' close_box='true'/>
+  <mp-box-button value='创建' form_id='form_id' close_box='true' ajax_list_id='xxxxxx'/>
+  <mp-box-button value='更新' form_id='form_id' close_box='true' ajax_list_id='xxxxxx'/>
+</mp-box>

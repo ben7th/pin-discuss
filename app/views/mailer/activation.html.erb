@@ -1,0 +1,7 @@
+尊敬的用户 <b><%=@user.name%></b> ：
+
+<p>您在 MindPin 的账号已经创建，请访问以下链接激活账号：(单击此链接 或 复制链接地址到您的浏览器中访问)</p>
+<% url = "#{THIS_SITE}activate/#{@user.activation_code}" %>
+<p><%= link_to url,url,:target=>'_blank' %></p>
+
+<%=render :partial=>'contact'%>

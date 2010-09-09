@@ -1,0 +1,11 @@
+尊敬的用户 <b><%=@user.name%></b> ：
+
+<p>您在 MindPin 的账号已经升级成功！ 请继续使用新的版本</p>
+
+<p>请使用您的电子邮箱地址<%= @user.email %>登录</p>
+
+<p>您好，请点击下面的链接地址登录网站：(单击此链接 或 复制链接地址到您的浏览器中访问)</p>
+<% url = "#{THIS_SITE}login" %>
+<p><%= link_to url,url,:target=>'_blank' %></p>
+
+<%=render :partial=>'contact'%>

@@ -1,0 +1,3 @@
+-form_tag change_repo_file_path(:user_id=>params[:user_id],:repo_name=>params[:repo_name],:path=>params[:path]),:method=>:put,:multipart => true,:target=>"upload_frame" do
+  =file_field_tag "file"
+  =submit_tag "上传"

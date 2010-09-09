@@ -1,0 +1,6 @@
+.padding10
+  -commits_group_by_datetime(@commits).each do |name,value|
+    .separate
+      =name
+    -mplist value,:for=>RepositoryCommit,:class=>'no-line' do |commit|
+      =render :partial=>"repositories/parts/info_commit",:locals=>{:repo_commit=>commit}

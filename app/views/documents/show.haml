@@ -1,0 +1,17 @@
+
+-disabler = @document.invisible_users_of(current_user)
+.joiners
+  -@document.joiners.map do |user|
+    .logodiv{:tip=>user.name}
+      =logo user,"tiny"
+      -if disabler.include?(user)
+        =link_to_remote "解除屏蔽",:url=>visible_uu_document_path(:tuser_id=>user.id),:method=>:put,:confirm=>"解除屏蔽?",:html=>{:tip=>"#{user.name}已被你屏蔽，点击解除屏蔽",:class=>"logoc"}
+  =link_to_remote "发送邀请",:url=>invite_form_document_path,:method=>:get,:html=>{:tip=>"邀请其他人参与这个讨论"}
+
+-text_pin_hash_arr = @document.text_pin_tree(current_user)[:root]
+=render :partial=>"documents/parts/list_text_pin",:locals=>{:text_pin_hash_arr=>text_pin_hash_arr}
+=link_to_remote "回复",:url=>reply_form_document_path(:id=>@document.id),:method=>:get
+=link_to "document_tree raw",raw_document_path(:id=>@document.id)
+
+-content_for :css do
+  =stylesheet_link_tag "discuss"

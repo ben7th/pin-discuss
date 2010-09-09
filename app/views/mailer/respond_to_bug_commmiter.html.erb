@@ -1,0 +1,19 @@
+尊敬的用户 <b><%=@bug.user.name%></b> 您好：
+
+<p>您于<%=qdatetimefull @bug.created_at %>在MindPin网站上发表了以下意见 ：</p>
+<p>
+  <%= @bug.content %>
+</p>
+
+<p>
+  我们的管理员看到了您的留言，并做了如下回复：
+</p>
+
+<p>
+  <%=@comment.content%>
+</p>
+
+<p>
+  非常感谢您的意见，我们将努力改进，为您提供更优质的服务。祝您身体健康，工作顺利
+</p>
+<%=render :partial=>'contact'%>

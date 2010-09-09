@@ -1,0 +1,6 @@
+尊敬的朋友：
+%p
+  = "这是来自#{@workspace.user.name}的工作空间'#{@workspace.name}'的拒绝邮件"
+  由于您不再这个工作空间的成员列表中，所以您无法参与
+  您可以申请加入这个工作空间，或者与该空间的主人联系
+=render :partial=>'contact'

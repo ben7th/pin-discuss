@@ -1,0 +1,5 @@
+=link_to "返回话题",document_path(:id=>params[:document_id])
+-mplist @text_pin.versions,:for=>TextPin do |text_pin|
+  .quote_content.padding10.margint5.width500.marginl10
+    =text_pin.to_html
+  =text_pin.creator.email

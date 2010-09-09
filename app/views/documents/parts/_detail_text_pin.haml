@@ -1,0 +1,3 @@
+%div.body
+  =render :partial=>"documents/parts/detail_body_text_pin",:locals=>{:document=>document,:text_pin=>text_pin}
+=render :partial=>"documents/parts/list_text_pin",:locals=>{:text_pin_hash_arr=>(children ||=[]),:parent=>text_pin}

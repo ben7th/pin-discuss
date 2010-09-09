@@ -1,0 +1,87 @@
+.joiners {
+  -moz-border-radius:4px 4px 4px 4px;
+  background-color:#0E0E1A;
+  border-color:#0E0E16 #2E2E3C #2E2E3C #0E0E16;
+  border-style:solid;
+  border-width:1px;
+  line-height:36px;
+  margin-bottom:15px;
+  overflow:hidden;
+  padding:10px;
+}
+
+.joiners .logo{
+  float:left;
+  height:32px;
+  margin-right:10px;
+  width:32px;
+}
+.joiners .logodiv{
+  float:left;
+  position:relative;
+}
+.joiners .logoc {
+  text-indent:-9999px;
+  white-space:nowrap;
+  line-height:0;
+  position:absolute;
+  height:24px;
+  width:24px;
+  left:50%;
+  top:50%;
+  margin-top:-12px;
+  margin-left:-12px;
+  background-image:url("/images/discuss/eye.png");
+}
+ul.discuss li {
+  -moz-border-radius:4px 4px 4px 4px;
+  background-color:#0E0E1A;
+  border-color:#0E0E16 #2E2E3C #2E2E3C #0E0E16;
+  border-style:solid;
+  border-width:1px;
+  overflow:hidden;
+  padding:10px;
+}
+ul.discuss li .logo.tiny {
+  float:left;
+  height:20px;
+  margin-right:10px;
+  width:20px;
+}
+ul.discuss li .body {
+  overflow:hidden;
+}
+ul.discuss li .content {
+  float:left;
+  font-size:12px;
+}
+ul.discuss li .content span.uname {
+  color:#FF7F2F;
+}
+ul.discuss li ul.discuss {
+  margin-left:16px;
+  margin-top:10px;
+}
+ul.discuss li .content .edit {
+  -moz-border-radius:4px 4px 4px 4px;
+  background-color:#000000;
+  color:#888888;
+  height:24px;
+  line-height:24px;
+  margin-right:10px;
+  margin-top:10px;
+  padding-left:10px;
+  padding-right:10px;
+}
+ul.discuss li .content .ceye {
+  -moz-border-radius:4px 4px 4px 4px;
+  background-color:#000000;
+  background-image:url("/images/discuss/eye.png");
+  background-repeat:no-repeat;
+  color:#888888;
+  height:24px;
+  line-height:24px;
+  margin-top:10px;
+  padding-left:28px;
+  padding-right:10px;
+}

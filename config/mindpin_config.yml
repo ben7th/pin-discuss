@@ -1,0 +1,26 @@
+development:
+  ATTACHED_FILE_PATH_ROOT: /root/mindpin_base/mindpin_education_files/
+  ATTACHED_FILE_URL_ROOT: http://img.edu.mindpin.com/
+  APP_PREFIX: /app/
+  THIS_SITE: http://192.168.1.8:3456/
+  RSS_THUMB_SITE: http://192.168.1.8:3030/
+  IMAGE_CACHE_SITE: http://192.168.1.8:9530/
+  REPOSITORY_SERVICE_SITE:  http://192.168.1.8:9531/
+  GIT_REPO_PATH: /root/mindpin_base/git_repo
+
+test:
+  ATTACHED_FILE_PATH_ROOT: /root/mindpin_base/mindpin_education_files/
+  ATTACHED_FILE_URL_ROOT: http://img.edu.mindpin.com/
+  APP_PREFIX: /app/
+  THIS_SITE: http://192.168.1.8:3007/
+  RSS_THUMB_SITE:
+  REPOSITORY_SERVICE_SITE:  http://192.168.1.8:9531/
+  GIT_REPO_PATH: /root/mindpin_base/git_repo_test_lifei
+
+production:
+  ATTACHED_FILE_PATH_ROOT: /web/apps/mindpin_images/
+  ATTACHED_FILE_URL_ROOT: http://img.mindpin.com/
+  APP_PREFIX: /app/
+  THIS_SITE: http://www.mindpin.com/
+  RSS_THUMB_SITE: http://thumbs.mindpin.com/
+  IMAGE_CACHE_SITE: http://mindmapimagecache.mindpin.com/

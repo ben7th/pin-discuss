@@ -1,0 +1,13 @@
+.padding10.font14
+  -file_name = repository_file_info.name
+  -kind = repository_file_info.kind
+  -if kind == 'blob'
+    =link_to file_name,show_repo_file_path(:commit_id=>@commit_id,:path=>repository_file_info.path)
+  -elsif kind == 'tree'
+    =link_to file_name,show_repo_directory_path(:commit_id=>@commit_id,:path=>repository_file_info.path)
+  %a.username{:href=>'javascript:;'}
+    =repository_file_info.repo_commit.author
+    =repository_file_info.repo_commit.email
+  %span.date=time_str_by_today(repository_file_info.repo_commit.date)
+  ="(#{repository_file_info.repo_commit.message})"
+  =kind

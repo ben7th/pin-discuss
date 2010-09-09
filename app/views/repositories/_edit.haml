@@ -1,0 +1,7 @@
+-form_remote_tag :url=>update_repo_path(user_id,repository.id),:method=>:put do
+  =flash_info
+  .p
+    %label{:for=>"new_repo_name"} 名称
+    =text_field_tag 'new_repo_name',repository.name
+  .p
+    =submit_tag '确定'

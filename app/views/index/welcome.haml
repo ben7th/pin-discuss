@@ -1,0 +1,5 @@
+.padding10
+  %div
+    = flash_info
+    -current_user.workspaces.each do |workspace|
+      =link_to workspace.name,documents_path(workspace.id)

@@ -1,0 +1,8 @@
+尊敬的朋友：
+
+<p><%= "#{@invitation.host.name}" %>正在使用 MindPin 提供的工具，给您发来了邀请函，快去看看吧！</p>
+<p>(单击此链接 或 复制链接地址到您的浏览器中访问)</p>
+<% url = "#{THIS_SITE}invit_signup/#{@invitation.uuid}" %>
+<p><%= link_to url,url,:target=>'_blank' %></p>
+
+<%=render :partial=>'contact'%>

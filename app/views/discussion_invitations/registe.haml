@@ -1,0 +1,13 @@
+-user = User.new
+-user.email = @discussion_invitation.email
+-user_auth_url = YAML.load(CoreService.project("user_auth").settings)["url"]
+-post_url = File.join(user_auth_url,"users")
+.p 要参与讨论，需要完成注册，填写密码即可完成注册
+=flash_info
+-mindpin_form_for user,:url=>post_url,:method=>:post do |f|
+  =f.hidden_field :email,:maxlength=>50
+  =f.text_field :name,:maxlength=>50
+  =f.password_field :password,:value=>'',:maxlength=>32
+  =f.password_field :password_confirmation,:value=>'',:maxlength=>32
+  .reg-submit
+    =f.submit "确认注册"

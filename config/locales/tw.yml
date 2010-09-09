@@ -1,0 +1,575 @@
+tw:
+  page:
+    layouts:
+      current_user: 當前角色:{{role_str}}
+    tooltip:
+      title: 提示
+    index:
+      login: 登　錄
+      login1: 登 錄
+      remember_me: 記住我
+      version: 教育工具原型 {{version}}
+      version_admin: 教育工具原型 {{version}} 管理介面
+      admin_title: 管理員功能
+      batch_add_students: 批量導入學生
+      batch_add_students_caption: 每行一個學生，格式為：用戶名，密碼
+      batch_add_students_caption_about_form: 注意：逗號請用英文輸入,用戶名長度大於2，密碼長度大於4
+      batch_add_students_eclasses_caption_1: 班級行格式為：前標(eclass)，班級名
+      batch_add_students_eclasses_caption_eclass: 例如 eclass,一年级三班
+      batch_add_students_eclasses_caption_2: 班級下麵的學生行格式為：前標(student)，學生名，密碼
+      batch_add_students_eclasses_caption_student: 例如 student,趙華,123456
+      batch_add_students_and_eclasses: 批量導入學生和班級
+      batch_add_errors: 批量上傳錯誤
+      create_a_teacher: 創建教師
+      create_a_student: 創建學生
+      user_type: 用戶類型
+      teacher: 教師
+      admin: 管理員
+      student: 學生
+      create_a_user: 創建用戶
+      edit_system_setting: 系統設置
+      users_list: 用戶管理
+      create_a_eclass: 創建班級
+      eclasses_list: 班級管理
+    my_info:
+      cell_my_info_title: 我的信息
+      set: 設置
+      setting: 一般設置
+      preferences: 偏好設置
+      lessons_mamage: 課程
+      contact: 聯係人
+    contacts:
+      contact_set: 聯係人設置
+      find_contact: 查找聯係人
+      user_name: 用戶名
+      add_friend: 加為聯係人
+      delete_friend: 删除聯係人
+      friend_added: 已加爲聯係人
+    apps:
+      app: 應用
+    tags:
+      all: 全部TAG
+      edit_tag: 修改標籤
+      merge: 合併
+      merge_tag: 合併標籤
+      merge_as: 合併為
+      tag: 標籤
+      object_deleted: 對象已刪除
+      no_results: 沒有符合條件的查詢結果
+      edit: 修改
+    users:
+      settings_join_time: 加入時間
+      settings_email: 電子郵件
+      settings_logo: 頭像
+      settings_password_caption: 如果需要修改密碼，請在下麵填寫，不修改，則不用填寫
+      settings_password: 新密碼：
+      settings_password_confirmation: 確認新密碼：
+      settings_from_submit: 確定修改
+      cell_users_title: 用戶管理
+      cell_user_name: 用戶名
+      cell_user_login: 登錄名
+      cell_user_teacher_role: 教師
+      cell_user_student_role: 學生
+      cell_user_admin_role: 管理員
+      cell_eclass: 所在班級
+      no_eclass: 沒有班級
+      cell_user_btn_delete: 刪除
+    text_entries:
+      text_mamage: 文本
+      content: 內容
+      text_created_at: 創建時間
+      text_use: 用途
+      all: 全部
+      selector: 查詢
+      delete: 刪除
+      tag: 標籤
+    file_entries:
+      download: 下載
+      tag: 標籤
+      file_mamage: 檔案
+      file_mamage_all: 全部檔案
+      file_name: 名稱
+      file_size: 大小
+      file_use: 用途
+      file_created_at: 上傳時間
+    messages:
+      delete_draft: 捨弃草稿
+      sender: 發件人
+      participants: 參與者
+      inbox: 收件箱
+      outbox: 發件箱
+      draftbox: 草稿箱
+      new_message: 新短訊
+      station_message: 短訊
+      click_to_add_reveivers: 點擊增加收件人
+      cant_reply_system_message: 系統訊息，不能回覆
+      attend_people: 參與人員
+      return: 返回
+      return_inbox: 返回收件箱
+      return_outbox: 返回發件箱
+      return_draftbox: 返回草稿箱
+      save_draft: 保存為草稿
+      send: 發送
+      cancel: 捨棄
+      down_load_all_attachments: 下載所有附件
+      count_attachments: 個附件
+      reply: 回覆
+      send: 發送
+      draft: 草稿
+      read: 已讀
+      unread: 未讀
+      all: 全部
+      none: 無
+      subject: 主題 
+      save_at: 草稿保存於
+      confirm_delete: 確認刪除？
+      to_unread: 標記為未讀
+      to_read: 標記為已讀
+      edit_tags: 修改標籤
+      edit_title: 修改主題
+    message_topics:
+    entries:
+      resource_manage: 资源
+      edit_tags: 修改標籤
+      all: 全部
+      none: 無
+      used: 已使用
+      unused: 未使用
+      all_count: 總數
+    resource_packs:
+      attachment_btn_download: 下載
+    form:
+      succeed: 修改成功
+      failed: 修改失敗
+      submit: 提交
+      cancel: 取消
+      delete: 刪除
+      select: 選擇
+      save: 保存
+      find: 查找
+    helper:
+      page:
+        prev: 上一節
+        next: 下一節
+        assign: 分配
+        design: 設計
+        show: 閱讀
+        discussion: 所有討論板
+        requirement: 所有作業
+        preview: 預覽
+        old_object_deleted: 原對象已刪除
+      assign_rule_maps:
+        lesson: 課程
+        section: 目錄
+        eclass: 班級
+        user: 學生
+    teaching:
+      assign_rule_maps:
+        select_eclasses: 選擇班級
+        select_lessons: 選擇課程
+        select_type: 類型
+        appoint: 指定
+        cancel: 取消
+        cancel_assign: 取消分配
+        assign: 分配
+        cancel_all_assign: 取消全部分配
+        all_assign: 全部分配
+        part_assign: 部份分配
+        no_people_need_people: 班級無人，請先加人
+        eclass: 班級
+        assign_conditions: 分配情況
+        child_section_list: 進入下層目錄
+        assign_status: 分配狀態
+        confirm_assign_all: 當前是部份分配，確認要全部分配？
+        click_to_assign: 點這裡分配
+        click_to_cancel_assign: 點這裡取消分配
+      eclasses:
+        add_students_for_eclass_title: 為班級 {{name}} 增加學生
+        no_students: 暫時沒有同學
+        has_students_sign: 已有同學
+        students_without_class: 沒有班級的學生
+        eclasses_list: 班級管理
+        students_count: 學生數
+        eclass: 班級
+        creator: 創建者
+        allocate_students: 分配學生
+        delete_eclass: 刪除班級
+        confirm_delete: 確定刪除?
+        new_class: 新建班級
+      execution_executes:
+        not_see: 還沒有查看
+        not_executed: 還沒有人做
+        cancel: 取消完成狀態
+        submit: 確認完成
+      execution_history_maps:
+        upload_histroy: 上傳歷史
+      inter_comment_executions:
+        rates_standard_deviation: 標準差
+        execution_z_score: Z分數
+        add_comment: 添加評注
+        current_arvrage_rated: 當前平均分
+        your_rated: 你打的分數是
+        people_count_rated: 共有{{count}}人打過分
+        average: 平均分
+        people_rated: 打過分
+        name: 姓名
+      inter_comments:
+        comment_title: 互評 {{subject}}
+        prev: 上一個
+        next: 下一個
+        yes_str: 是
+        no_str: 否
+        public_comment: 公開評論
+        complated: '{{name}}完成的{{subject}}'
+        submit_str: 確定
+        requirement_count: 作業數量 {{count}}
+        view: 查看
+        create_inter_comment: 創建互評
+        statistics: 統計
+      lessons:
+        lesson_str: 課程
+        new_lesson: 新課程
+        my_lessons: 我的課程
+        other_lessons: 其他課程
+        new_unit: 新目錄
+        teacher_name: 開課老師 {{name}}
+        lessons_btn_publish: 發佈
+        lessons_btn_unpublish: 取消發佈
+        lessons_btn_edit: 改名
+        lessons_btn_delete: 刪除
+        lessons_btn_assign: 分配
+        lessons_btn_export: 導出
+        lessons_btn_import: 導入
+        import_lesson: 導入課程
+        edit_info: 修改課程信息
+        new_lesson_btn_clue_content: 點擊這裡創建新課程
+        new_section_btn_clue_content: 點擊這裡創建新目錄
+        section_opration_btn_clue_content: 滑鼠移至條目上方，顯示操作按鈕
+        back_to_lesson_list: 返回課程列表
+        mini_size: 點這裡可以最小化邊欄，增大閱讀空間
+        file_error: 文件為空或者格式不正确
+        handling: 正在處理中...
+        down_load: 下載
+        import_success: 恭喜！導入成功！
+        lesson_name: 課程名稱：
+        sun_sections_count: 子目錄個數：
+        attachments_count: 附件個數：
+        attachments_size: 附件總大小：
+        discussions_count: 討論版個數：
+        requirements_count: 作業要求個數：
+      lesson_execution_maps:
+        cell_show_title: '{{user_name}} 同學 在 {{lesson_name}} 中的作業完成情況'
+        upload_histroy: 上傳歷史
+        view_files: 點擊查看文件
+      lesson_requirements:
+        requirement_title: '{{name}} 的全部作業'
+        requirements_count: 中作業數
+        view: 查看
+        all_requirements: 所有作業
+        unexecuted: 我沒有做過的
+        executed: 我做過的
+      lesson_discussions:
+        discussions_title: '{{name}} 的全部討論板'
+        discussions_count: 的討論板
+        view: 查看
+      lesson_designs:
+        cell_title: '{{name}} 的設計'
+        create_text: 新內容
+        new_procedure_btn_clue_content: 每個目錄內可以有很多段內容，點擊這裡創建一段內容
+        new_section_btn_clue_content: 點擊這裡給當前目錄創建子目錄
+      sections:
+        form_title_section: 新建目錄
+        section_btn_up: 上移
+        section_btn_down: 下移
+        section_btn_rename: 重命名
+        section_btn_design: 設計
+        section_btn_assign: 分配
+        section_btn_delete: 刪除
+        section_btn_insert_section: 添加子目錄
+        section_btn_read: 閱讀
+      homework_executions:
+        execution_replay: 重做
+        execution_file_history: 上傳歷史
+        close: 收起
+      procedures:
+        procedures_btn_insert_title: 添加新內容
+        procedures_btn_up: 上移
+        procedures_btn_down: 下移
+        procedures_btn_add_attachment: 添加附件
+        procedures_btn_add_zip_attachment: 添加zip檔案
+        procedures_btn_add_discussion: 添加討論板
+        procedures_btn_add_homework: 添加作業要求
+        procedures_btn_edit: 編輯
+        procedures_btn_delete: 刪除
+        switch_attachments_style: 切換附件樣式
+        procedure_opration_btn_clue_content: 滑鼠移至這裡顯示操作按鈕<br/>可在此添加附件，創建討論板，創建作業
+        open_attachments: 个附件
+        close_attachments: 收起附件
+      procedure_discussions:
+        cell_discussion_title: 討論板 {{title}}
+        discussion: 討論板
+        discussions_btn_detail: 查看
+        discussions_btn_edit: 修改
+        discussions_btn_delete: 刪除
+        confirm_delete: 確認刪除？
+        new_discussion: 新建討論板
+      procedure_homeworks:
+        homeworks_file_kind: 上傳文檔
+        homeworks_text_kind: 上傳文本
+        homeworks_btn_edit: 修改
+        homeworks_btn_delete: 刪除
+        create_inter_comment: 創建互評
+        homework_executions_status: 提交情況
+        homework_execute: 做作業
+      procedure_posts:
+        delete_attachment_file_field: 刪除
+        has_deleted: 已刪除
+      procedure_attachments:
+        attachment_btn_delete: 刪除
+        confirm_delete: 確定刪除？
+        attachment_btn_toggle_view: 切換
+        normal_upload: 普通上傳
+        zip_upload: zip壓縮上傳
+        explanation: 將上傳的附件壓縮到一個zip文件中，然後上傳
+        file_error: 文件為空或者格式錯誤，必須是zip文件
+      
+  model:
+    user:
+      admin_role: 管理員
+      teacher_role: 教師
+      student_role: 學生
+      normal_role: 一般用戶
+    file_handling:
+      errors_in_line: 第 {{line_number}} 行出錯了，錯誤是：{{line_error}}
+      too_many_items: 元素過多
+      sign_error: 前標錯誤
+    teaching:
+      inter_comments:
+        assign: 指定
+        all: 全部交叉
+        random: 隨機選擇
+        public_comment: 公開評論
+        secret_comment: 私評
+      lesson:
+        published_str: 已發佈
+        unpublish_str: 未發佈
+      assign_rule:
+        assign_all: 全部分配
+        assign_part: 部份分配
+        assign_none: 沒有分配
+      requirement:
+        no_subject: 無說明
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%e %b"
+      long: "%B %e, %Y"
+      only_day: "%e"
+
+    day_names: [星期日, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%a %b %d %H:%M:%S %Z %Y"
+      time: "%H:%M"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+      only_second: "%S"
+
+      datetime:
+        formats:
+          default: "%Y-%m-%dT%H:%M:%S%Z"
+
+      am: 'am'
+      pm: 'pm'
+
+  datetime:
+    distance_in_words:
+      half_a_minute: 'half a minute'
+      less_than_x_seconds:
+        zero: 'less than 1 second'
+        one: '1 second'
+        other: '{{count}} seconds'
+      x_seconds:
+        one: '1 second'
+        other: '{{count}} seconds'
+      less_than_x_minutes:
+        zero: 'less than a minute'
+        one: '1 minute'
+        other: '{{count}} minutes'
+      x_minutes:
+        one: '1 minute'
+        other: '{{count}} minutes'
+      about_x_hours:
+        one: 'about 1 hour'
+        other: '{{count}} hours'
+      x_days:
+        one: '1 day'
+        other: '{{count}} days'
+      about_x_months:
+        one: 'about 1 month'
+        other: '{{count}} months'
+      x_months:
+        one: '1 month'
+        other: '{{count}} months'
+      about_x_years:
+        one: 'about 1 year'
+        other: '{{count}} years'
+      over_x_years:
+        one: 'over 1 year'
+        other: '{{count}} years'
+        
+  activerecord:
+    models:
+      user: 用戶
+      Message: 短訊
+      'Teaching::Lesson': 課程
+      'Teaching::Homework': 作業要求
+      'Teaching::Discussion': 討論版
+    attributes:
+      invitation:
+        friend_email: 郵件地址
+        content: 邀請內容
+      message:
+        title: 短訊主題
+        content: 短訊內容
+        participants: 參與者
+      message[text_entry]:
+        content: 内容
+      message[file_entry]:
+        subject: 描述
+        content: 內容
+      system_setting:
+        name: 系統名稱
+        login_info: 登錄提示
+        footer_info: 頁脚信息
+        logo: 系統logo上傳
+      file_entry:
+        content: 請選擇文件
+        subject: 文件描述
+      text_entry:
+        content: 內容
+      remark_comment:
+        content: 評論正文
+      topic:
+        title: 標題
+        content: 內容
+      requirement:
+        kind: 作業類型
+        subject: 作業說明
+      user:
+        name: 用戶名
+        login: 登錄名
+        email: 電子郵箱
+        password: 密碼
+        password_confirmation: 確認密碼
+        logo: 頭像
+      survey:
+        title: 調查標題
+      question:
+        title: 調查問題
+      question_option:
+        title: 選項
+        kind: 類型
+      post:
+        content: 回覆正文
+      lesson:
+        name: 課程名
+        subject: 課程摘要
+        tags_input_str: TAGs
+      common_group:
+        name: 組名
+        tags_input_str: TAGs
+      teaching_eclass:
+        name: 班級名
+        subject: 概要
+        new_members: 新成員
+        tags_input_str: TAGs
+      teaching_discussion:
+        title: 標題
+        content: 內容
+      textbook:
+        title: 標題
+        subject: 概要
+        tags_input_str: TAGs
+      study_group:
+        name: 學習小組名稱
+        tags_input_str: TAGs
+      teaching_unit:
+        name: 名稱
+        subject: 摘要
+      teaching_section:
+        name: 名稱
+        subject: 摘要
+      teaching_inter_comment:
+        subject: 互評描述
+        kind: 類型
+        rand_count: 個數
+        secret: 是否私評
+        can_rate: 是否星級評分
+      teaching_lesson:
+        name: 課程名稱
+        subject: 課程摘要
+      teaching_homework[requirement]:
+        kind: 作業類型
+        subject: 作業說明
+      entries:
+        value: 標籤
+      tag:
+        value: 標籤
+      tag_combo:
+        name: 名稱
+      app:
+        name: 應用標示
+        title: 名稱
+        callback_url: 地址
+        port: 端口
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: 需要填寫用戶名，用於經來的登錄
+              invalid: 用戶名不符合規範
+              too_short: 用戶名的長度應該大於{{count}}個字符（字符可以是中文或者英文數字）
+              too_long: 用戶名的長度應該小於{{count}}個字符（字符可以是中文或者英文數字）
+              taken: 這個用戶名已經被使用了
+            email:
+              blank: 必須填寫可用的郵件地址
+              invalid: 不符合規範
+              taken: 已經被使用過了
+            password:
+              blank: 密碼不能為空
+              too_short: 密碼過短(不能少於{{count}}個字符)
+              confirmation: 密碼與確認值不匹配
+            password_confirmation:
+              blank: 確認密碼不能為空
+      template:
+        header: 保存{{model}}信息時發生了{{count}}個錯誤
+        body: 請根據錯誤提示修改您填寫的信息
+      messages:
+        inclusion: 不包含于列表中
+        exclusion: 不可用
+        invalid: 不合法
+        confirmation: 與確認值不匹配
+        accepted: 必須接受
+        empty: 不能留空
+        blank: 不能為空
+        too_long: 過長(不能多於{{count}}個字符)
+        too_short: 過短(不能少於{{count}}個字符)
+        wrong_length: 長度不正確(必須是{{count}}個字符)
+        taken: 不可用
+        not_a_number: 不是數字
+        greater_than: 必須大於{{count}}
+        greater_than_or_equal_to: 必須大於或者等於{{count}}
+        equal_to: 必須等於{{count}}
+        less_than: 必須小於 {{count}}
+        less_than_or_equal_to: 必須小於或者等於{{count}}
+        odd: 必須為單數
+        even: 必須為雙數
+        record_invalid: record_invalid
+        content: 請上傳文件

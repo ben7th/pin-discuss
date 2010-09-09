@@ -1,0 +1,35 @@
+-file_path = raw_repo_file_path(params[:user_id],params[:repo_name],params[:commit_id],params[:path])
+-commits_path = repo_commits_path(params[:user_id],params[:repo_name],params[:path])
+-edit_path = edit_repo_file_path(params[:user_id],params[:repo_name],params[:path])
+-reupload_path = reupload_repo_file_path(params[:user_id],params[:repo_name],params[:path])
+-user = User.find(params[:user_id])
+-is_text = @repo_file_info.mime_type.match("text")
+-is_image = @repo_file_info.mime_type.match("image")
+
+.padding10
+  =render :partial=>"repositories/parts/info_commit",:locals=>{:repo_commit=>@repo_file_info.repo_commit}
+
+  .clearfix.margint10
+    .fleft
+      =@repo_file_info.path
+      |
+      =@repo_file_info.size
+      |
+      =link_to '复制','javascript:;'
+    .links.fright
+      -if params[:commit_id] == "master"
+        -if is_text
+          =link_to_remote "编辑",:url=>edit_path,:method=>:get
+        =link_to_remote "覆盖上传",:url=>reupload_path,:method=>:get
+      =link_to "raw",file_path
+      =link_to "提交记录",commits_path
+
+  =hr
+
+  .blobcontent.file_content
+    -if is_image
+      .aligncenter
+        %img{:class=>'logo',:src=>file_path}
+    -elsif is_text
+      .font14.text_content
+        =@repo_file_info.data

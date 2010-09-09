@@ -1,0 +1,26 @@
+development:
+  adapter: mysql
+  encoding: utf8
+  database: discuss_development
+  username: root
+  password: root
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: mysql
+  encoding: utf8
+  database: discuss_test
+  username: root
+  password: root
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: mysql
+  encoding: utf8
+  database: discuss_0531
+  username: root
+  password: root
+  pool: 5
+  timeout: 5000

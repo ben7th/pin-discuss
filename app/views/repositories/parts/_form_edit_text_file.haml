@@ -1,0 +1,10 @@
+.edit_form
+  -form_remote_tag :url=>change_repo_file_path(:user_id=>params[:user_id],:repo_name=>params[:repo_name],:path=>params[:path]),:method=>:put do
+    %span 编辑
+    .p
+      =text_area_tag "text",file_content_text
+    %span 提交信息
+    .p
+      =text_area_tag "commit_message"
+    =submit_tag "提交"
+    =link_to "取消","javascript:void(null)",:class=>"cancel_button",:onclick=>"$(this).up('div').remove();$$('.text_content').each(function(text_content){text_content.removeClassName('hide');});return false;"

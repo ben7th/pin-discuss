@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  讨论话题树XML结构
+  这个结构用来关联文档节点
+-->
+<document-tree>
+  <!--作者-->
+  <author email='ben7th@sina.com'>
+  <!--参与者-->
+  <joiners>
+    <joiner email='ben7th@126.com'/>
+    <joiner email='yutong@gmail.com'/>
+  </joiners>
+  <!--文档-->
+  <document>
+    <text id='' />
+    <text id=''>
+      <text id='' />
+    </text>
+  </document>
+</document-tree>

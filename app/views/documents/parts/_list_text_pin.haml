@@ -1,0 +1,16 @@
+-text_pins = []
+-text_pin_children_hash = {}
+-text_pin_hash_arr.each do |text_pin_and_children|
+  -text_pin = text_pin_and_children[:text_pin]
+  -text_pins << text_pin
+  -text_pin_children_hash[text_pin] = text_pin_and_children[:children]
+
+-parent ||= nil
+-for_value = TextPin
+-if !parent.blank?
+  -for_value = [parent,for_value]
+
+-if text_pin_hash_arr.count
+  -mplist text_pins,:for=>for_value,:class=>"discuss" do |text_pin|
+    -children = text_pin_children_hash[text_pin]
+    =render :partial=>"documents/parts/detail_text_pin",:locals=>{:document=>@document,:text_pin=>text_pin,:children=>children}

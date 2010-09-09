@@ -1,0 +1,174 @@
+# == Schema Information
+# Schema version: 20091223090135
+#
+# Table name: users
+#
+#  id                :integer(4)      not null, primary key
+#  login             :string(255)     default(""), not null
+#  name              :string(255)     default(""), not null
+#  hashed_password   :string(255)     default(""), not null
+#  salt              :string(255)     default(""), not null
+#  email             :string(255)     default(""), not null
+#  sign              :string(255)     
+#  active_code       :string(255)     
+#  activated         :boolean(1)      not null
+#  logo_file_name    :string(255)     
+#  logo_content_type :string(255)     
+#  logo_file_size    :integer(4)      
+#  logo_updated_at   :datetime        
+#  created_at        :datetime        
+#  updated_at        :datetime        
+#
+
+songliang:
+  name: songliang
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: ben7th@sina.com
+
+lifei:
+  name: lifei
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: fushang318@163.com
+  v09: false
+  v09_up: true
+
+v09_lifei:
+  name: v09_lifei
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: fushang318_v09@163.com
+  v09: true
+  v09_up: false
+
+chengliwen:
+  name: chengliwen
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: qdclw1986@163.com
+
+hanmeimei:
+  name: hanmeimei
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+  email: hmm@163.com
+
+xiaolifeidao:
+  name: xiaolifeidao
+  email: xiaolifeidao@163.com
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+
+admin:
+  name: admin
+  email: admin@163.com
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+  
+teacher_1:
+  name: teacher_1
+  email: teacher_1@163.com
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+
+teacher_cheng:
+  name: teacher_cheng
+  email: teacher_cheng@163.com
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+
+teacher_song:
+  name: teacher_song
+  email: teacher_song@163.com
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+
+teacher_li:
+  name: teacher_li
+  email: teacher_li@163.com
+  salt: 465645645.767567
+  hashed_password: <%=User.encrypted_password('123456','465645645.767567')%>
+
+chinacheng:
+  name: chinacheng
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: qdclw1986@163.com
+
+lucy:
+  name: 路西
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: lucy@gmail.com
+
+dave:
+  name: dave
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: dave@gmail.com
+
+jim:
+  name: jim
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: jim@gmail.com
+  
+jone:
+  name: jone
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: jone@gmail.com
+
+tom:
+  name: tom
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: tom@gmail.com
+
+creator:
+  name: creator
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: creator@gmail.com
+
+assign_student_li:
+  name: assign_student_li
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: assign_student_li@gmail.com
+
+assign_student_song:
+  name: assign_student_song
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: assign_student_song@gmail.com
+
+assign_student_cheng:
+  name: assign_student_cheng
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: assign_student_cheng@gmail.com
+
+assign_student_tom:
+  name: assign_student_tom
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: assign_student_tom@gmail.com
+
+assign_student_jim:
+  name: assign_student_jim
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: assign_student_jim@gmail.com
+
+assign_student_sam:
+  name: assign_student_sam
+  salt: 267256200.649032
+  hashed_password: <%=User.encrypted_password('123456','267256200.649032')%>
+  email: assign_student_sam@gmail.com
+
+repo_lifei:
+  id: 2147483000
+  name: lifei
+  email: fushang318@repo.com

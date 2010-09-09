@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <content>
+    <![CDATA[
+      今天天气不错
+    ]]>
+  </content>
+  <format>
+    <bold from='1,1' to='1,4'/>
+  </format>
+</root>

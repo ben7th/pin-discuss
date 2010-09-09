@@ -1,0 +1,2 @@
+-form_remote_tag :url=>document_text_pin_path,:method=>:put do
+  =render :partial=>"text_pins/form_content",:locals=>{:content=>text_pin.to_html}

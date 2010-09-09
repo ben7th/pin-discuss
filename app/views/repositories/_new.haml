@@ -1,0 +1,7 @@
+-form_remote_tag :url=>create_repo_path,:method=>:post do
+  =flash_info
+  .p
+    %label{:for=>"repo_name"} 名称
+    =text_field_tag 'repo_name'
+  .p
+    =submit_tag '创建'

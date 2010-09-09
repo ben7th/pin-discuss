@@ -1,0 +1,30 @@
+%div
+  %div 屏蔽的文本
+  -@document.invisible_text_pins_of(current_user).each do |text_pin|
+    =text_pin.plain_content
+    =link_to_remote "解除屏蔽",:url=>visible_tu_document_path(:tid=>text_pin.id),:method=>:put
+    %br
+%div
+  %div 屏蔽的人
+  -@document.invisible_users_of(current_user).each do |user|
+    =user.email
+    =link_to_remote "解除屏蔽",:url=>visible_uu_document_path(:tuser_id=>user.id),:method=>:put
+    %br
+%div 讨论参与者
+%div=@document.joiners.map{|user|user.email}*","
+%div=link_to_remote "邀请某人参与这个话题",:url=>invite_form_document_path,:method=>:get
+%div
+  已经发送的邀请
+  %br
+  -@document.document_tree.discussion_invitations.each do |di|
+    =di.email
+    =di.invite_status
+    -if !di.responsed?
+      =link_to_remote "再次邀请",:url=>invite_document_path(:email=>di.email),:method=>:post
+    %br
+-@document.versions.each do |document|
+  %hr
+  -text_pin_hash_arr = document.text_pin_tree(current_user)[:root]
+  =render :partial=>"documents/parts/list_text_pin",:locals=>{:text_pin_hash_arr=>text_pin_hash_arr}
+  =link_to_remote "回复",:url=>reply_form_document_path(:id=>document.id),:method=>:get
+  =link_to "document_tree raw",raw_document_path(:id=>document.id)

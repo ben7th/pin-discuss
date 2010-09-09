@@ -1,0 +1,3 @@
+=link_to_remote "新建讨论", :url => new_document_path, :method => :get
+-mplist @documents, :for=>Document do |document|
+  =render :partial => "/documents/info_document", :locals => {:document => document}

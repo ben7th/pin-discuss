@@ -1,0 +1,184 @@
+MindMap API 第一版设计草案
+
+api调用地址
+
+http://api.mindpin.com/mindmap/
+
+开发环境下：
+http://#{mindmap_editor app_path}/api/
+
+api分为需用户认证和无序用户认证两种
+
+用户认证采用 HTTP Basic Authentication
+用户使用在mindpin注册的邮箱和密码作为认证依据
+
+mindpin根据用户需要返回特定格式数据，简单的更改请求后缀可以得到不同的数据格式
+第一版API支持 xml json 两种格式
+
+返回数据请求时统一使用UTF-8编码
+
+MindMap API会对每次请求返回合适的HTTP状态。
+例如，当请求一个不存在的用户信息时，API会返回404 Not Found；
+当一次请求没有被认证并授权时，API会返回401 Not Authorized状态。
+
+可以使用curl来简单的调用API，或者用于测试
+例如：
+
+curl -u email:password http://api.mindpin.com/mindmap/user_maps.json
+
+返回某个用户的导图列表
+
+API详细清单：
+
+第一大类：获取信息类API
+
+1，获取用户个人导图列表
+http://api.mindpin.com/mindmap/user_maps.format
+参数列表：
+id 可选参数 用来指定用户id
+例 http://api.mindpin.com/mindmap/user_maps/1002.xml
+当不指定任何用户时，返回当前认证用户的导图列表
+count 可选参数. 返回的最大记录数，最多返回200条，默认20
+例 http://api.mindpin.com/mindmap/user_maps?count=120
+page 可选参数. 分页返回。注意：最多返回200条分页内容
+例 http://api.mindpin.com/mindmap/user_maps?page=2
+
+2，获取单个导图信息
+http://api.mindpin.com/mindmap/show/id.format
+支持格式
+json xml
+参数列表：
+id 必要参数 用来指定导图id
+
+3，导出导图为其他软件格式
+http://api.mindpin.com/mindmap/export/id.format
+支持格式
+mm mmap
+参数列表：
+id 必要参数 用来指定导图id
+
+4，导出导图为图片
+http://api.mindpin.com/mindmap/image/id.format
+支持格式
+png jpg/jpeg gif
+参数列表：
+id 必要参数 用来指定导图id
+zoom 可选参数 用来指定导出时的缩放比率 可以是小数
+例 http://api.mindpin.com/mindmap/image/12345.png?zoom=1.6
+
+
+第二大类：导图操作类API
+如果请求成功
+返回：
+xml: <status>OK</status>
+json: {status:'OK'}
+
+1 插入一个节点
+http://api.mindpin.com/mindmap/do_insert
+参数列表：
+id 必要参数 用来指定导图id
+parent 必要参数 用来指定当前在哪个节点插入新节点
+index 可选参数 指定节点插入到哪一个顺序位置，默认为0，如果传入的index大于实际的parent节点下的子节点个数，取最大值
+title 可选参数 指定新节点的标题
+例 http://api.mindpin.com/mindmap/do_insert/12345?parent=0&index=2&title=HAHAHA
+
+2 删除一个节点
+http://api.mindpin.com/mindmap/do_delete
+id 必要参数 用来指定导图id
+node 必要参数 用来指定删除哪个节点 不能删除根节点
+例 http://api.mindpin.com/mindmap/do_delete/12345?node=12
+
+3 修改一个节点标题
+http://api.mindpin.com/mindmap/do_title
+id 必要参数 用来指定导图id
+node 必要参数 用来指定删除哪个节点 不能删除根节点
+title 必要参数 用来指定修改后的标题
+例 http://api.mindpin.com/mindmap/do_title/12345?node=12&title=NEWTITLE
+
+4 折叠/展开一个节点
+http://api.mindpin.com/mindmap/do_toggle
+id 必要参数 用来指定导图id
+node 必要参数 用来指定折叠/展开哪个节点 不能折叠展开根节点
+fold 可选参数 用来指定是折叠还是展开 false为展开 true为折叠 不指定为切换状态
+例 http://api.mindpin.com/mindmap/do_toggle/12345?node=12&fold=1
+
+5 在一个节点上插入图片
+http://api.mindpin.com/mindmap/do_image
+id 必要参数 用来指定导图id
+node 必要参数 用来指定在哪个节点上插入图片 如果节点已经有图片 则更改图片
+url 必要参数 图片url
+width 可选参数 指定宽度
+height 可选参数 指定高度
+例 http://api.mindpin.com/mindmap/do_image/12345?node=28&url=http://www.acfun.cn/templets/images/logo.gif
+
+6 移动一个节点
+http://api.mindpin.com/mindmap/do_move
+id 必要参数 用来指定导图id
+node 必要参数 用来指定在哪个节点上插入图片 如果节点已经有图片 则更改图片
+target 可选参数 指定移动到的目的节点
+index 可选参数 指定节点插入到哪一个顺序位置，默认为0，如果传入的index大于实际的parent节点下的子节点个数，取最大值
+puton 可选参数 指定节点是放置在左边还是右边 left为左 right为右
+例 http://api.mindpin.com/mindmap/do_move/12345?node=28&parent=2&index=3
+
+7 给一个节点插入备注
+http://api.mindpin.com/mindmap/do_note
+id 必要参数 用来指定导图id
+node 必要参数 用来指定在哪个节点上插入图片 如果节点已经有图片 则更改图片
+note 必要参数 用来指定插入的note
+例 http://api.mindpin.com/mindmap/do_note/12345?node=12&title=NEWNOTE
+
+8 修改一个节点的颜色
+http://api.mindpin.com/mindmap/do_change_color
+id 必要参数 用来指定导图id
+node 必要参数
+bgc 可选参数 背景色
+fgc 可选参数 前景色
+如果背景色和前景色的参数都不传，则什么都不修改
+背景色前景色在XML结构里 用<N>上的 bgc 和 fgc 属性 表示
+例 http://api.mindpin.com/mindmap/do_note/12345?node=12&bgc=#000000&fgc=#ffffff
+参数中的'#'可能需要转码，试试看吧
+
+9 给一个节点增加链接
+http://api.mindpin.com/mindmap/do_add_link
+id 必要参数 用来指定导图id
+node 必要参数
+link 必要参数 链接地址
+链接地址在XML结构里 用<N>上的 link 属性 表示
+http://api.mindpin.com/mindmap/do_note/12345?node=12&link=http://www.google.com
+
+10 修改一个节点的字体大小
+http://api.mindpin.com/mindmap/do_change_font_size
+id 必要参数 用来指定导图id
+node 必要参数
+fs 必要参数 字体大小 以像素表示
+字体大小在XML结构里 用<N>上的 fs 属性 表示
+
+11 修改节点文字是否为粗体字
+http://api.mindpin.com/mindmap/do_set_font_bold
+id 必要参数 用来指定导图id
+node 必要参数
+bold 必要参数 true 或者 false
+字体粗体在XML结构里 用<N>上的 fb 属性 表示 值取0或者1
+
+12 修改节点文字是否为斜体字
+http://api.mindpin.com/mindmap/do_set_font_italic
+id 必要参数 用来指定导图id
+node 必要参数
+italic 必要参数 true 或者 false
+字体粗斜体在XML结构里 用<N>上的 fi 属性 表示 值取0或者1
+
+
+第三大类：导图管理类API
+
+全部需要用户认证
+
+1 新建一个导图
+http://api.mindpin.com/mindmap/create
+title 必要参数 标题
+private 可选参数 true|false 是否私有 默认false
+例 http://api.mindpin.com/mindmap/create?title=NEWMAP&private=false
+
+2 删除一个导图
+http://api.mindpin.com/mindmap/destroy/:id
+id 必要参数
+例 http://api.mindpin.com/mindmap/destroy/12345

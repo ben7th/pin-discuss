@@ -1,0 +1,182 @@
+<style type="text/css">
+<!--
+.title1 {
+	font-size: 16px;
+	font-weight: bold;
+}
+.gray {
+	color: #666;
+}
+.gray1 {
+	font-weight: bold;
+}
+.red {
+	color: #F00;
+}
+.b {
+	font-weight: bold;
+}
+.bluetitle {
+	color: #03F;
+	font-size: 24px;
+	font-weight: bold;
+}
+-->
+</style>
+<p><span class="title1">第一步，安装mysql</span></p>
+<p>简单起见，安装suse10.3自带的 <span class="b">mysql 5.0.26</span><br />
+  通过yast的软件管理来安装</p>
+<p>还要安装<span class="b">mysql-devel</span>噢</p>
+<p>安装好以后，简单的配置好密码：<br />
+提示信息如：</p>
+<p class="gray">/etc/init.d/mysql start<br />
+  Creating/Updating MySQL privilege database...<br />
+  Installing all prepared tables<br />
+  Fill help tables<br />
+  PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !<br />
+  To do so, start the server, then issue the following commands:<br />
+  <span class="gray1">/usr/bin/mysqladmin -u root password 'new-password'</span><br />
+  /usr/bin/mysqladmin -u root -h tpc-thyes.tpc.edu.tw password 'new-password'<br />
+  See the manual for more instructions.</p>
+<p class="gray">You can test the MySQL daemon with the benchmarks in the 'sql-bench' directory:<br />
+  cd sql-bench ; perl run-all-tests</p>
+<p class="gray">Please report any problems with the /usr/bin/mysqlbug script!</p>
+<p class="gray">The latest information about MySQL is available on the web at<br />
+  http://www.mysql.com<br />
+  Support MySQL by buying support/licenses at http://shop.mysql.com<br />
+  Updating MySQL privilege database...<br />
+  Fixing privilege tables...<br />
+  Starting service MySQL                                                done</p>
+<p>在/etc/profile的末尾添加<br />
+  <span class="red">/etc/init.d/mysql start</span><br />
+  保证mysql每次随系统自动启动</p>
+<p>之后可以用远程工具访问SSH通道来管理。比phpMyAdmin方便。</p>
+<p><span class="title1">第二步，安装apache2</span></p>
+<p>安装 suse10.3 自带的 <span class="b">apache 2.2.3</span></p>
+<p class="title1">第三步，安装系统依赖包</p>
+<p>openssl<br />
+openssl-devel</p>
+<p>readline<br />
+readline-devel</p>
+<p>gcc<br />
+  gcc-c++<br />
+  gcc-java
+</p>
+<p>libpng<br />
+libpng-devel<br />
+libjpeg<br />
+libjpeg-devel<br />
+libtiff<br />
+libtiff-devel
+</p>
+<p>pcre<br />
+  pcre-devel
+</p>
+<p>libxml2<br />
+libxml2-devel</p>
+<p>libxslt<br />
+  libxslt-devel
+</p>
+<p class="title1">第三步，安装ruby EE</p>
+<p>到这里下载：<br />
+http://www.rubyenterpriseedition.com/download.html</p>
+<p>安装参考文档：<br />
+http://www.rubyenterpriseedition.com/documentation.html<br />
+步骤非常繁琐，要仔细！</p>
+<p>末了记得修改/etc/profile，加入：<br />
+export PATH=<span class="red">/opt/ruby-enterprise/</span>bin:$PATH<br />
+（假设安装目录为 <span class="red">/opt/ruby-enterprise/</span>）</p>
+<p>这里安装的版本号是：<span class="b">ruby 1.8.7 (2009-12-24 patchlevel 248) [x86_64-linux], MBARI 0x6770, Ruby Enterprise Edition 2010.01</span></p>
+<p class="title1">第四步，安装rubygem</p>
+<p>去rails的官方网站找下载链接<br />
+http://rubyonrails.org/download</p>
+<p class="title1">第五步，安装gem包</p>
+<p>gem install rails（这里用 <span class="b">2.3.5</span>）<br />
+nokogiri 1.4.1<br />
+hpricot 0.8.2
+</p>
+<p class="title1">第六步，安装svn</p>
+<p>这里找源码<br />
+http://subversion.apache.org/source-code.html</p>
+<p>这里安装的是 <span class="b">1.6.9</span></p>
+<p>注意，把源码包和 deps 包都要下载下来<br />
+subversion-1.6.9.tar.gz<br />
+subversion-deps-1.6.9.tar.gz</p>
+<p>都解压，解压之后应该在一个目录里面<br />
+./configure <span class="b">--prefix=/usr/local/subversion</span></p>
+<p>编译安装后<br />
+记得添加PATH<br />
+修改/etc/profile，加入：<br />
+export PATH=/usr/local/subversion/bin:$PATH</p>
+<p class="title1">第七步，安装 ImageMagick</p>
+<p>http://www.imagemagick.org/script/index.php</p>
+<p>这里安装<br />
+  <span class="b">ImageMagick-6.5.9-0</span><br />
+版本</p>
+<p>./configure   <span class="b">--prefix=/usr/local/ImageMagick</span></p>
+<p>修改/etc/profile，添加：<br />
+export   PATH=/usr/local/ImageMagick/bin:$PATH</p>
+<p>编辑/etc/ld.so.conf，加入：<br />
+/usr/local/ImageMagick/lib <br />
+执行命令：<br />
+ldconfig <br />
+将ImageMagick的库加入系统联接库</p>
+<p>执行 <span class="red">convert logo:   logo.gif</span><br />
+如果生成了gif，说明OK了</p>
+<p class="title1">第八步，安装 fcgi库 和 ruby-fcgi</p>
+<p>最新版本应该是2.4.0 和 0.8.7</p>
+<p>由于ruby的fcgi支持库需要在编译的时候联接FCGI的系统库，因此我们需要先安装FCGI库，下载FCGI源代码发行包：<br />
+  http://www.fastcgi.com/dist/<br />
+  tar xzvf fcgi-2.4.0.tar.gz<br />
+  cd fcgi-2.4.0<br />
+  ./configure --prefix=/usr/local/fcgi<br />
+  make &amp;&amp; make install<br />
+  同样，将fcgi安装在自己指定的目录下，而不是默认的/usr/local，避免多个软件混在一起。<br />
+  <br />
+  然后就可以安装ruby的fcgi支持库了，下载ruby-fcgi-0.8.7.tar.gz：<br />
+  http://rubyforge.org/projects/fcgi/<br />
+  tar xzvf ruby-fcgi-0.8.7.tar.gz<br />
+  cd ruby-fcgi-0.8.7<br />
+  ruby install.rb config -- --with-fcgi-include=/usr/local/fcgi/include --with-fcgi-lib=/usr/local/fcgi/lib<br />
+  ruby install.rb setup<br />
+ruby install.rb install </p>
+<p class="title1">第九步，安装配置 lighttpd</p>
+<p>我们安装 1.4.25<br />
+http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.25.tar.gz</p>
+<p>./configure   <span class="b">--prefix=/usr/local/lighttpd</span></p>
+<p>编译之后配置<br />
+  cp doc/sysconfig.lighttpd /etc/sysconfig/lighttpd<br />
+  mkdir /etc/lighttpd<br />
+cp doc/lighttpd.conf /etc/lighttpd/lighttpd.conf</p>
+<p>SUSE：<br />
+cp doc/rc.lighttpd   /etc/init.d/lighttpd</p>
+<p>然后修改/etc/init.d/lighttpd，把<br />
+  LIGHTTPD_BIN=/usr/sbin/lighttpd<br />
+  改为<br />
+LIGHTTPD_BIN=/usr/local/lighttpd/sbin/lighttpd </p>
+<p>log文件配置：<br />
+accesslog.filename          = &quot;/web/log/lighttpd_access.log&quot;<br />
+server.document-root        = &quot;/web/www/htdocs/&quot;<br />
+server.errorlog             = &quot;/web/log/lighttpd_error.log&quot;</p>
+<p>mod配置<br />
+  &quot;mod_rewrite&quot;,<br />
+&quot;mod_alias&quot;,<br />
+  &quot;mod_access&quot;,<br />
+  &quot;mod_fastcgi&quot;,<br />
+  &quot;mod_simple_vhost&quot;,<br />
+  &quot;mod_cgi&quot;,<br />
+  &quot;mod_compress&quot;,<br />
+&quot;mod_accesslog&quot;</p>
+<p>compress.cache-dir         = &quot;/tmp/lighttpd/cache/compress&quot;<br />
+compress.filetype          = (&quot;text/plain&quot;, &quot;text/html&quot;,&quot;text/javascript&quot;,&quot;text/css&quot;) </p>
+<p>&nbsp;</p>
+<p class="title1">第十步，安装mysql适配器</p>
+<p>http://www.tmtm.org/en/mysql/ruby/<br />
+<span class="b">安装 2.8.1 版本</span></p>
+<p>ruby extconf.rb<br />
+make &amp;&amp; make install </p>
+<p><span class="bluetitle">工程配置：</span><br />
+</p>
+<p>第一行：<br />
+  #!/opt/ruby-enterprise/bin/ruby<br />
+</p>

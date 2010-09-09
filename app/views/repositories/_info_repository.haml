@@ -1,0 +1,10 @@
+.padding10
+  -repo_name = repository.name
+  =link_to repo_name,show_repo_root_path(user_id,repo_name)
+  %a.username{:href=>'javascript:;'}
+    =repository.last_author.name
+    =repository.last_author.email
+  -if repository.date
+    %span.date=time_str_by_today(repository.date)
+  =link_to_remote "修改属性",:url=>edit_repo_path(params[:user_id],repository.id),:method=>:get
+  =link_to "讨论列表",documents_path(:repo_name=>repo_name)

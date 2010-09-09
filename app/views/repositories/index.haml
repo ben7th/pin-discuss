@@ -1,0 +1,8 @@
+.padding10
+  .clearfix
+    %h3.fleft="#{current_user.name}的版本库"
+    .fright
+      =link_to_remote "<span>创建新版本库</span>",:url=>new_repo_path,:method=>:get,:html=>{:class=>'minibutton'}
+  .font16.bold.margint10
+    -mplist @repositories,:for=>Repository do |repository|
+      =render :partial=>"/repositories/info_repository",:locals=>{:user_id=>params[:user_id],:repository=>repository}

@@ -1,0 +1,11 @@
+# 激活的用户数据导入
+insert into users(id,name,hashed_password,salt,email ,sign ,logo_file_name ,logo_content_type,logo_file_size,logo_updated_at,reset_password_code ,reset_password_code_until ,activation_code ,created_at ,updated_at,activated_at,v09,v09_up)
+select id,name,hashed_password,salt,email ,sign ,logo_file_name ,logo_content_type,logo_file_size,logo_updated_at,reset_password_code ,reset_password_code_until ,active_code ,created_at ,updated_at,created_at,1,0
+from users_copy
+where users_copy.activated=1
+
+# 未激活的用户数据导入
+insert into users(id,name,hashed_password,salt,email ,sign ,logo_file_name ,logo_content_type,logo_file_size,logo_updated_at,reset_password_code ,reset_password_code_until ,activation_code ,created_at ,updated_at,v09,v09_up)
+select id,name,hashed_password,salt,email ,sign ,logo_file_name ,logo_content_type,logo_file_size,logo_updated_at,reset_password_code ,reset_password_code_until ,active_code ,created_at ,updated_at,1,0
+from users_copy
+where users_copy.activated=0

@@ -1,0 +1,144 @@
+<style type="text/css">
+<!--
+.title1 {
+	font-size: 16px;
+	font-weight: bold;
+}
+.gray {
+	color: #666;
+}
+.gray1 {
+	font-weight: bold;
+}
+.red {
+	color: #F00;
+}
+.b {
+	font-weight: bold;
+}
+.bluetitle {
+	color: #03F;
+	font-size: 24px;
+	font-weight: bold;
+}
+-->
+</style>
+<p><span class="title1">第一步，安装mysql</span></p>
+<p>简单起见，安装suse10.3自带的 <span class="b">mysql 5.0.26</span><br />
+  通过yast的软件管理来安装</p>
+<p>还要安装<span class="b">mysql-devel</span>噢</p>
+<p>安装好以后，简单的配置好密码：<br />
+提示信息如：</p>
+<p class="gray">/etc/init.d/mysql start<br />
+  Creating/Updating MySQL privilege database...<br />
+  Installing all prepared tables<br />
+  Fill help tables<br />
+  PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !<br />
+  To do so, start the server, then issue the following commands:<br />
+  <span class="gray1">/usr/bin/mysqladmin -u root password '</span><span class="red b">new-password</span><span class="gray1">'</span><br />
+  /usr/bin/mysqladmin -u root -h tpc-thyes.tpc.edu.tw password 'new-password'<br />
+  See the manual for more instructions.</p>
+<p class="gray">You can test the MySQL daemon with the benchmarks in the 'sql-bench' directory:<br />
+  cd sql-bench ; perl run-all-tests</p>
+<p class="gray">Please report any problems with the /usr/bin/mysqlbug script!</p>
+<p class="gray">The latest information about MySQL is available on the web at<br />
+  http://www.mysql.com<br />
+  Support MySQL by buying support/licenses at http://shop.mysql.com<br />
+  Updating MySQL privilege database...<br />
+  Fixing privilege tables...<br />
+  Starting service MySQL                                                done</p>
+<p>在/etc/profile的末尾添加<br />
+  <span class="red">/etc/init.d/mysql start</span><br />
+  保证mysql每次随系统自动启动</p>
+<p>之后可以用远程工具访问SSH通道来管理。比phpMyAdmin方便。</p>
+<p><span class="title1">第二步，安装apache2</span></p>
+<p>安装 suse10.3 自带的 <span class="b">apache 2.2.3</span></p>
+<p>也要安装 apache-devel mod_rails 编译用到</p>
+<p class="title1">第三步，安装系统依赖包</p>
+<p>openssl<br />
+openssl-devel</p>
+<p>readline<br />
+readline-devel</p>
+<p>gcc<br />
+  gcc-c++<br />
+  gcc-java
+</p>
+<p>libpng<br />
+libpng-devel<br />
+libjpeg<br />
+libjpeg-devel<br />
+libtiff<br />
+libtiff-devel
+</p>
+<p>pcre<br />
+  pcre-devel
+</p>
+<p>libxml2<br />
+libxml2-devel</p>
+<p>libxslt<br />
+  libxslt-devel
+</p>
+<p class="title1">第三步，安装ruby EE</p>
+<p>到这里下载：<br />
+http://www.rubyenterpriseedition.com/download.html</p>
+<p>下载后运行里面的installer，填写安装目录，然后等一会就装好了。</p>
+<p>末了记得把路径写到 /etc/profile<br />
+export PATH=/root/mindpin/ruby/bin:$PATH</p>
+<p>这里安装的版本号是：<span class="b">ruby 1.8.7 (2009-12-24 patchlevel 248) [x86_64-linux], MBARI 0x6770, Ruby Enterprise Edition 2010.01</span></p>
+<p>rubygem和rails会一起安装好，并且</p>
+<p>mysql 2.8.1适配器<br />
+和<br />
+passenger的gem包也装好了</p>
+<p class="title1">第四步，安装gem包</p>
+<p>nokogiri 1.4.1<br />
+hpricot 0.8.2
+</p>
+<p class="title1">第六步，安装svn</p>
+<p>这里找源码<br />
+http://subversion.apache.org/source-code.html</p>
+<p>这里安装的是 <span class="b">1.6.9</span></p>
+<p>注意，把源码包和 deps 包都要下载下来<br />
+subversion-1.6.9.tar.gz<br />
+subversion-deps-1.6.9.tar.gz</p>
+<p>都解压，解压之后应该在一个目录里面<br />
+./configure <span class="b">--prefix=/usr/local/subversion</span></p>
+<p>编译安装后<br />
+记得添加PATH<br />
+修改/etc/profile，加入：<br />
+export PATH=/usr/local/subversion/bin:$PATH</p>
+<p class="title1">第七步，安装 ImageMagick</p>
+<p>http://www.imagemagick.org/script/index.php</p>
+<p>这里安装<br />
+  <span class="b">ImageMagick-6.6.0-3</span><br />
+版本</p>
+<p>./configure   <span class="b">--prefix=/usr/local/ImageMagick</span></p>
+<p>修改/etc/profile，添加：<br />
+export   PATH=/usr/local/ImageMagick/bin:$PATH</p>
+<p>编辑/etc/ld.so.conf，加入：<br />
+/usr/local/ImageMagick/lib <br />
+执行命令：<br />
+ldconfig <br />
+将ImageMagick的库加入系统联接库</p>
+<p>执行 <span class="red">convert logo:   logo.gif</span><br />
+如果生成了gif，说明OK了</p>
+<p class="title1">第八步，配置apache和mod_rails</p>
+<pre>运行 passenger-install-apache2-module</pre>
+<p>给apache添加配置</p>
+<p>Please edit your Apache configuration file, and add these lines:</p>
+<p> LoadModule passenger_module /root/mindpin/ruby/lib/ruby/gems/1.8/gems/passenger-2.2.11/ext/apache2/mod_passenger.so<br />
+  PassengerRoot /root/mindpin/ruby/lib/ruby/gems/1.8/gems/passenger-2.2.11<br />
+  PassengerRuby /root/mindpin/ruby/bin/ruby</p>
+<p> &lt;VirtualHost *:80&gt;<br />
+  ServerName www.yourhost.com<br />
+  DocumentRoot /somewhere/public    # &lt;-- be sure to point to 'public'!<br />
+  &lt;Directory /somewhere/public&gt;<br />
+  AllowOverride all              # &lt;-- relax Apache security settings<br />
+  Options -MultiViews            # &lt;-- MultiViews must be turned off<br />
+  &lt;/Directory&gt;<br />
+  &lt;/VirtualHost&gt;<br />
+</p>
+<p><span class="bluetitle">工程配置：</span><br />
+</p>
+<p>第一行：<br />
+  #!/opt/ruby-enterprise/bin/ruby<br />
+</p>

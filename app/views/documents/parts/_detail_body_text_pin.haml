@@ -1,0 +1,26 @@
+-document_id = document.id
+-text_pin_id = text_pin.id
+-options = {:document_id=>document_id,:id=>text_pin_id}
+-creator = text_pin.creator
+
+=logo creator,"tiny"
+.content
+  %span.uname=creator.name
+  =text_pin.to_html
+  =link_to "查看历史版本",document_text_pin_path(options)
+  =link_to_remote "回复我",:url=>reply_form_document_path(:id=>document_id,:text_pin_id=>text_pin_id),:method=>:get
+  =link_to_remote "编辑",:url=>edit_document_text_pin_path(options),:method=>:get
+  =link_to "raw",raw_document_text_pin_path(options)
+  =link_to_remote "删除",:url=>document_text_pin_path(options),:method=>:delete,:confirm=>"确定删除？"
+  =link_to_remote "屏蔽这个文本",:url=>invisible_tu_document_path(:tid=>text_pin.id),:method=>:put
+  =link_to_remote "屏蔽这个作者",:url=>invisible_uu_document_path(:tuser_id=>text_pin.creator.id),:method=>:put
+
+  -edit_info = text_pin.edit_info
+  -if !edit_info.blank?
+    .edit
+      ="#{edit_info[:editors].map(&:name)*","} 编辑 #{edit_info[:count]} 次"
+
+  -invisibles = document.invisibles_of(text_pin)
+  -if invisibles.count != 0
+    .ceye
+      ="#{invisibles.map(&:name)*","} 选择不看"

@@ -1,0 +1,65 @@
+以下是EXT需要实现的服务，按照MIME类型来区分，共分为三类 分别是 JSON XML 和 HTML
+
+CORE支持应用以REST方式和非REST方式来注册服务
+所有服务接口描述如下：
+
+第一类：JSON类访问
+>SHOW@JSON:（上面是REST方式，下面是非REST方式，后同）
+GET /应用名/该pin类型名称的英文单词小写复数形式/该pin类型在该应用中对应的对象id.json
+GET /应用名/process?type=iphone&id=1&action=get&mime=json
+response:
+{"macbook": {"updated_at": "2009-06-28T02:25:51Z", "title": "ffffffff", "id": 1, "num": 123, "created_at": "2009-06-28T02:25:51Z"}}
+
+
+第二类：XML类访问
+>DELETE@XML
+# DELETE /应用名/该pin类型名称的英文单词复数形式/该pin类型在该应用中对应的对象id
+# POST /应用名/process?type=iphone&id=1&action=delete&mime=xml
+
+>CREATE@XML
+POST /应用名/该pin类型名称的英文单词复数形式/
+POST /应用名/process?type=iphone&action=create&mime=xml
+
+
+第三类：HTML类访问
+这一类访问一般由CORE重定向过来，或者直接从EXT来访问
+
+>EDIT@HTML
+编辑页面
+GET /应用名/该pin类型名称的英文单词复数形式/该pin类型在该应用中对应的对象id/edit
+GET /应用名/process?type=iphone&id=1&action=edit&mime=html
+
+>NEW@HTML
+创建时的表单
+GET /应用名/该pin类型名称的英文单词复数形式/new
+GET /应用名/process?type=iphone&action=new
+
+
+# @UPDATE
+# PUT /应用名/该pin类型名称的英文单词复数形式/该pin类型在该应用中对应的对象id/edit
+# POST /应用名/process?type=iphone&id=1&action=update
+
+# @INDEX
+# GET /应用名/该pin类型名称的英文单词复数形式/
+# GET /应用名/process?type=iphone&action=index
+
+# 1 用户向 www.mindpin.com 的某个pin发起“获取编辑页面”的请求
+# 2 核心引擎从 pins 表 中 获取 该pin 对应的 item_type 和 item_id
+# 3 核心引擎获取（已经注册的访问地址）
+
+
+
+以下是讨论过程记录，暂时无用
+# iphone 2 /apple/iphone_editor => /apple/iphone_editor?id=2
+# iphone 2 /apple/editor => /apple/editor?type=iphone&id=2
+# iphone 2 /apple/iphones/:id =>
+
+# REST形式
+# 一个包含:id（必须）和:type（或:types）（可选）通配符的字符串 这样核心引擎在访问该地址时# 把:id :type(或:types)自动替换
+# 例：
+# item_type=>'iphone' 和 item_id=>345
+# fsdfsf:idfdfadfsdf:type
+# => fsdfsf345fdfadfsdfiphone
+
+# 非REST形式
+# editor?xid=:id&kind=:type
