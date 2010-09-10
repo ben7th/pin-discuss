@@ -134,7 +134,8 @@ class Document < MplistRecord
 
   # 讨论的简介
   def title
-    text_pins.first.plain_content
+    text_node = @nokogiri_struct.css("document text").first
+    TextPin.find(:commit_id=>self.commit_id,:repo_user_id=>self.repo_user_id,:repo_name=>self.repo_name, :id=>text_node["id"]).plain_content
   end
 
   # 这个讨论的所有 text_pin
