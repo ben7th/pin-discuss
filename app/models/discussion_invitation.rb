@@ -31,14 +31,14 @@ class DiscussionInvitation < ActiveRecord::Base
   end
 
   def repo_name
-    document_tree.repository.name
+    document_tree.workspace.id
   end
 
   def repo_user_id
-    document_tree.repository.user.id
+    document_tree.workspace.user_id
   end
 
   def document_id
-    document_tree.document.id
+    document_tree.id
   end
 end
