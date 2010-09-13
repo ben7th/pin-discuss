@@ -10,5 +10,5 @@ test:
 
 production:
   name: discuss
-  url: http://2010.mindpin.com/discuss
-  master_url: http://2010.mindpin.com/config
+  url: http://2010.mindpin.com/
+  master_url: http://2010.mindpin.com/
