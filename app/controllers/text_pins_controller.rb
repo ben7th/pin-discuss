@@ -3,7 +3,7 @@ class TextPinsController < ApplicationController
   before_filter :per_load
   def per_load
     if params[:document_id]
-      @document = DocumentTree.find_by_workspace_id_and_document_id(params[:workspace_id],params[:document_id]).document
+      @document = DocumentTree.find_by_workspace_id_and_id(params[:workspace_id],params[:document_id]).document
     end
     @text_pin = @document.find_text_pin(params[:id]) if params[:id]
   end
