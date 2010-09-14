@@ -17,11 +17,11 @@ class DocumentTest < ActiveSupport::TestCase
       content = "关于XX的讨论"
       text_pin = {:content=>content,:format=>""}
       document = nil
-      assert_difference(["Discussion.count","DocumentTree.count"],1) do
+      assert_difference(["DiscussionParticipant.count","Discussion.count"],1) do
         document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei,:text_pin=>text_pin)
       end
-      discussion = Discussion.last
-      document_tree = DocumentTree.last
+      discussion = DiscussionParticipant.last
+      document_tree = Discussion.last
       assert_equal discussion.document_tree,document_tree
       assert_equal discussion.participant,repo_lifei
       assert_equal document_tree.workspace.user,repo_lifei
@@ -42,11 +42,11 @@ class DocumentTest < ActiveSupport::TestCase
       reply_content = "lucy 的观点"
       reply_text_pin = {:content=>reply_content,:format=>""}
 
-      assert_difference("Discussion.count",1) do
+      assert_difference("DiscussionParticipant.count",1) do
         DocumentSyncMail.reply(document,:text_pin_id=>text_pin.id,:user=>lucy,:text_pin=>reply_text_pin)
       end
 
-      discussion_reply = Discussion.last
+      discussion_reply = DiscussionParticipant.last
       assert_equal discussion_reply.participant,lucy
       assert_equal discussion_reply.document_tree,document_tree
 
@@ -66,12 +66,12 @@ class DocumentTest < ActiveSupport::TestCase
       # 编辑讨论
       tom = users(:tom)
       other_text_pin = {:content=>'tom这个小伙子到此一游',:format=>""}
-      assert_difference("Discussion.count",1) do
+      assert_difference("DiscussionParticipant.count",1) do
         document.edit_text_pin(:text_pin_id=>new_pin.id,:user=>tom,:text_pin=>other_text_pin)
       end
       document_changed = Document.find(:id=>document.id,:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei)
 
-      discussion_edit = Discussion.last
+      discussion_edit = DiscussionParticipant.last
       assert_equal discussion_edit.participant,tom
       assert_equal discussion_edit.document_tree,document_tree
 
@@ -83,7 +83,7 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal text_pin_changed.creator,tom
 
       # tom再次编辑了而这个文本，不应该重复创建一条discussion
-      assert_difference("Discussion.count",0) do
+      assert_difference("DiscussionParticipant.count",0) do
         document.edit_text_pin(:text_pin_id=>new_pin.id,:user=>tom,:text_pin=>other_text_pin)
       end
 

@@ -18,7 +18,7 @@ class Document < MplistRecord
 
   # 在数据库中对应的document_tree
   def document_tree
-    DocumentTree.find(self.id)
+    Discussion.find(self.id)
   end
 
   # 在版本库中的相对路径
@@ -45,7 +45,7 @@ class Document < MplistRecord
   def self.create(options)
     if self.create_valid?(options)
       document = Document.new(options)
-      document_tree = DocumentTree.create(:workspace_id=>document.repo_name)
+      document_tree = Discussion.create(:workspace_id=>document.repo_name)
       document_id = document_tree.id.to_s
       document.id = document_id
       text_pin_id = UUIDTools::UUID.random_create.to_s
