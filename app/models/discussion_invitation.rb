@@ -2,9 +2,9 @@ require 'uuidtools'
 class DiscussionInvitation < ActiveRecord::Base
 
   belongs_to :inviter,:class_name=>"User"
-  belongs_to :document_tree
+  belongs_to :discussion
 
-  validates_presence_of :document_tree_id
+  validates_presence_of :discussion_id
   
   validates_presence_of :inviter_id
   validates_presence_of :email
@@ -27,18 +27,18 @@ class DiscussionInvitation < ActiveRecord::Base
   end
 
   def joined?
-    document_tree.document.joined?(self.email)
+    discussion.document.joined?(self.email)
   end
 
   def repo_name
-    document_tree.workspace.id
+    discussion.workspace.id
   end
 
   def repo_user_id
-    document_tree.workspace.user_id
+    discussion.workspace.user_id
   end
 
   def document_id
-    document_tree.id
+    discussion_id
   end
 end

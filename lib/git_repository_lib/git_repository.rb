@@ -113,10 +113,13 @@ class GitRepository
   end
 
   # 增加文件
-  # add_files([{:from=>"/tmp/hello",:to=>"nihao"}],user,:message=>"add some file")
-  def add_files(from_and_to_arr,user,options = {})
-    @repo.config['user.name'] = user.name
-    @repo.config['user.email'] = user.email
+  # add_files([{:from=>"/tmp/hello",:to=>"nihao"}],email,:message=>"add some file")
+  def add_files(from_and_to_arr,email,options = {})
+    user = User.find_by_email(email)
+    name = user.blank? ? email : user.name
+    
+    @repo.config['user.name'] = name
+    @repo.config['user.email'] = email
 
     from_and_to_arr.each do |from_and_to|
       file_path = from_and_to[:from]
