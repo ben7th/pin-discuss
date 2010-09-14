@@ -2,14 +2,13 @@ require 'rubygems'
 require 'beanstalk-client'
 require File.join(File.dirname(__FILE__), '../..', 'config', 'environment') if !defined?(RAILS_ROOT)
 
-beanstalk_config = YAML::load(File.open("#{RAILS_ROOT}/config/beanstalk.yml"))
-address = beanstalk_config[RAILS_ENV]["address"]
+if ["development","test","production",nil].include?(ARGV[0])
+  RAILS_ENV = (ARGV[0] || "production")
+end
 
-beanstalk = Beanstalk::Pool.new(address)
-
-@logger = Logger.new("#{RAILS_ROOT}/log/queue.#{Rails.env}.log")
+beanstalk = Beanstalk::Pool.new("127.0.0.1:11301")
+@logger = Logger.new("#{RAILS_ROOT}/log/queue.log")
 @logger.level = Logger::INFO
-
 
 def process_email(job_hash)
   @logger.info("传进来一个参数 #{job_hash.inspect}")
