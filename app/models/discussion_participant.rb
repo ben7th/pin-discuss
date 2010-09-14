@@ -1,16 +1,20 @@
 class DiscussionParticipant < ActiveRecord::Base
-  belongs_to :participant,:class_name=>"User"
-  belongs_to :document_tree
 
-  validates_presence_of :document_tree_id
+  belongs_to :discussion
+
+  validates_presence_of :discussion_id
 
   def hide!
     self.update_attributes(:hide=>true)
   end
 
+  def self.discussion_participants(email)
+    DiscussionParticipant.find(:all,:conditions=>["email => #{email} and hide is null or hide = 0 "])
+  end
+
   module UserMethods
-    def self.included(base)
-      base.has_many :discussions,:foreign_key=>"participant_id",:conditions=>["hide is null or hide = 0"]
+    def discussion_participants
+      DiscussionParticipant.find(:all,:conditions=>["email => #{email} and hide is null or hide = 0 "])
     end
   end
 

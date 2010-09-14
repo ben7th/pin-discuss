@@ -2,7 +2,6 @@ class Discussion < ActiveRecord::Base
 
   has_many :discussion_invitations
   belongs_to :workspace
-  has_many :document_mails
 
   validates_presence_of :workspace_id
   
