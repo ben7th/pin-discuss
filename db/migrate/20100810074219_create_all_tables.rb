@@ -5,34 +5,38 @@ class CreateAllTables < ActiveRecord::Migration
       t.string   "email"
       t.boolean  "viewed"
       t.string   "uuid_code"
+      t.integer  "discussion_id"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.integer  "document_tree_id"
     end
 
-    create_table "discussions", :force => true do |t|
-      t.integer  "participant_id"
+    create_table "discussion_messages", :force => true do |t|
+      t.string "mmid"
+      t.integer  "discussion_id"
+      t.string "text_pin_id"
+      t.datetime "created_at"
+      t.datetime "updated_at"
+    end
+
+    create_table "discussion_participants", :force => true do |t|
+      t.string  "email"
+      t.integer  "discussion_id"
       t.boolean  "hide"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.integer  "document_tree_id"
     end
 
-    create_table "document_trees", :force => true do |t|
-      t.string   "document_id"
-      t.datetime "created_at"
-      t.datetime "updated_at"
-      t.integer  "repository_id"
-    end
-
-    create_table "repositories", :force => true do |t|
-      t.string   "name"
-      t.integer  "user_id"
+    create_table "discussions", :force => true do |t|
+      t.integer "workspace_id"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
   end
 
   def self.down
+    drop_table "discussion_invitations"
+    drop_table "discussion_messages"
+    drop_table "discussion_participants"
+    drop_table "discussions"
   end
 end
