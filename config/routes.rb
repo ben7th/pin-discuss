@@ -32,7 +32,7 @@ ActionController::Routing::Routes.draw do |map|
 
   #-----------------------文本资源---------------------#
   #  map.resources :text_pins
-  map.resources :discussions, :path_prefix => '/workspaces/:workspace_id',
+  map.resources :documents, :path_prefix => '/workspaces/:workspace_id',
     :member=>{:invisible_tu=>:put,:invisible_uu=>:put,:visible_tu=>:put,:visible_uu=>:put,
     :reply_form=>:get,:reply=>:post,:raw=>:get,:invite_form=>:get,:invite=>:post} do |document|
     document.resources :text_pins,:member=>{:raw=>:get}

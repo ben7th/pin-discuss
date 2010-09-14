@@ -5,12 +5,12 @@ class DocumentsController < ApplicationController
   def per_load
     @workspace = Workspace.find(params[:workspace_id])
     @user = @workspace.user
-    @document = DocumentTree.find(params[:id]).document if params[:id]
+    @document = Discussion.find(params[:id]).document if params[:id]
   end
 
   def index
-    @documents = @workspace.document_trees.map do |document_tree|
-      document_tree.document
+    @documents = @workspace.discussions.map do |discussion|
+      discussion.document
     end
   end
 
@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    document = @workspace.create_document(:creator=>current_user,:text_pin=>params[:text_pin])
+    document = @workspace.create_document(:email=>current_user.email,:text_pin=>params[:text_pin])
     if document
       render_ui do |ui|
         ui.mplist :insert,{:ul=>"#mplist_documents",:model=>document},:partial=>"/documents/info_document",:locals=>{:document=>document}
@@ -46,7 +46,7 @@ class DocumentsController < ApplicationController
   end
 
   def reply
-    options = {:text_pin_id=>params[:text_pin_id],:user=>current_user,:text_pin=>params[:text_pin]}
+    options = {:text_pin_id=>params[:text_pin_id],:email=>current_user.email,:text_pin=>params[:text_pin]}
     text_pin = DocumentSyncMail.reply(@document,options)
     if text_pin
         parent = (params[:text_pin_id] ? @document.find_text_pin(params[:text_pin_id]) : nil)
@@ -64,7 +64,7 @@ class DocumentsController < ApplicationController
 
   # 屏蔽某个文本
   def invisible_tu
-    @document.invisible_text_pin(:tid=>params[:tid],:user=>current_user)
+    @document.invisible_text_pin(:tid=>params[:tid],:email=>current_user.email)
     refresh_local_page
   end
 
@@ -76,7 +76,7 @@ class DocumentsController < ApplicationController
 
   # 解封某个文本
   def visible_tu
-    @document.visible_text_pin(:tid=>params[:tid],:user=>current_user)
+    @document.visible_text_pin(:tid=>params[:tid],:email=>current_user.email)
     refresh_local_page
   end
 
