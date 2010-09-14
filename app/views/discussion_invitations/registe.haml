@@ -2,7 +2,10 @@
 -user.email = @discussion_invitation.email
 -user_auth_url = YAML.load(CoreService.project("user_auth").settings)["url"]
 -post_url = File.join(user_auth_url,"users")
-.p 要参与讨论，需要完成注册，填写密码即可完成注册
+.p
+  您还没有注册，填写用户名和密码即可完成注册
+.p
+  完成注册后，您就可以用 #{@discussion_invitation.email} 登录，并参与讨论了
 =flash_info
 -mindpin_form_for user,:url=>post_url,:method=>:post do |f|
   =f.hidden_field :email,:maxlength=>50
