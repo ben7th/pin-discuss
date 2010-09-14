@@ -14,7 +14,7 @@ class DiscussionParticipant < ActiveRecord::Base
 
   module UserMethods
     def discussion_participants
-      DiscussionParticipant.find(:all,:conditions=>["email => #{email} and hide is null or hide = 0 "])
+      DiscussionParticipant.find(:all,:conditions=>["email => #{self.email} and hide is null or hide = 0 "])
     end
   end
 

@@ -6,7 +6,7 @@ class Workspace < ActiveRecord::Base
 
 
   # 在这个工作空间下创建一个讨论
-  # options = {:creator=>user,:text_pin=>{:content=>@email["body"],:format=>""}}
+  # options = {:email=>email,:text_pin=>{:content=>@email["body"],:format=>""}}
   def create_document(options)
     repo_user_id = self.user_id
     repo_name = self.id

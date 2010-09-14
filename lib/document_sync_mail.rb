@@ -12,7 +12,7 @@ class DocumentSyncMail
     options[:mmid] ||= self.mmid
     document = Document.create(options)
     if document
-      self.send_mail_to_members(document.document_tree.workspace,
+      self.send_mail_to_members(document.discussion.workspace,
         {:mmid=>options[:mmid],:body=>options[:text_pin][:html],:subject=>"新话题公告"})
       return document
     end
@@ -24,7 +24,7 @@ class DocumentSyncMail
     rmmid = options[:text_pin_id]
     return_value = document.reply(options)
     if return_value
-      self.send_mail_to_members(document.document_tree.workspace,
+      self.send_mail_to_members(document.discussion.workspace,
         {:mmid=>options[:mmid],:body=>options[:text_pin][:html],:subject=>"回复话题公告",:rmmid=>rmmid})
       return return_value
     end
@@ -41,20 +41,20 @@ class DocumentSyncMail
   end
 
   def self.reply_discuss(email_hash)
-    document_message = DocumentMessage.find_by_mmid(email_hash[:in_reply_to])
-    document = document_message.document_tree.document
+    discussion_message = DiscussionMessage.find_by_mmid(email_hash[:in_reply_to])
+    document = discussion_message.discussion.document
     options = {
       :mmid=>email_hash[:message_id],
-      :text_pin_id=>document_message.text_pin_id,
-      :user=>User.find_by_email(email_hash[:from]),
+      :text_pin_id=>discussion_message.text_pin_id,
+      :email=>email_hash[:from],
       :text_pin=>{:html=>email_hash[:body]}
     }
     DocumentSyncMail.reply(document,options)
   end
 
   def self.create_discuss(workspace,email_hash)
-    user = User.find_by_email(email_hash[:from])
-    options = {:mmid=>email_hash[:message_id],:creator=>user,:text_pin=>{:html=>email_hash[:body]}}
+    email = email_hash[:from]
+    options = {:mmid=>email_hash[:message_id],:email=>email,:text_pin=>{:html=>email_hash[:body]}}
     workspace.create_document(options)
   end
 

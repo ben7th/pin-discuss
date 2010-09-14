@@ -18,16 +18,16 @@ class DocumentTest < ActiveSupport::TestCase
       text_pin = {:content=>content,:format=>""}
       document = nil
       assert_difference(["DiscussionParticipant.count","Discussion.count"],1) do
-        document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei,:text_pin=>text_pin)
+        document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:email=>repo_lifei.email,:text_pin=>text_pin)
       end
-      discussion = DiscussionParticipant.last
-      document_tree = Discussion.last
-      assert_equal discussion.document_tree,document_tree
-      assert_equal discussion.participant,repo_lifei
-      assert_equal document_tree.workspace.user,repo_lifei
-      assert_equal document_tree.workspace.id,repo_name
+      discussion_participant = DiscussionParticipant.last
+      discussion = Discussion.last
+      assert_equal discussion_participant.discussion,discussion
+      assert_equal discussion_participant.email,repo_lifei.email
+      assert_equal discussion.workspace.user,repo_lifei
+      assert_equal discussion.workspace.id,repo_name
 
-      assert_equal document.creator,repo_lifei
+      assert_equal document.email,repo_lifei.email
       assert_equal document.joiners.size,1
       assert document.joiners.include?(repo_lifei)
     
@@ -43,15 +43,14 @@ class DocumentTest < ActiveSupport::TestCase
       reply_text_pin = {:content=>reply_content,:format=>""}
 
       assert_difference("DiscussionParticipant.count",1) do
-        DocumentSyncMail.reply(document,:text_pin_id=>text_pin.id,:user=>lucy,:text_pin=>reply_text_pin)
+        DocumentSyncMail.reply(document,:text_pin_id=>text_pin.id,:email=>lucy.email,:text_pin=>reply_text_pin)
       end
 
-      discussion_reply = DiscussionParticipant.last
-      assert_equal discussion_reply.participant,lucy
-      assert_equal discussion_reply.document_tree,document_tree
+      dp_reply = DiscussionParticipant.last
+      assert_equal dp_reply.email,lucy.email
+      assert_equal dp_reply.discussion,discussion
 
-      document = Document.find(:repo_user_id=>document.repo_user_id,:creator=>document.creator,:repo_name=>document.repo_name,
-        :id=>document.id)
+      document = document.reload
       assert_equal document.joiners.size,2
       assert document.joiners.include?(repo_lifei)
       assert document.joiners.include?(lucy)
@@ -67,13 +66,13 @@ class DocumentTest < ActiveSupport::TestCase
       tom = users(:tom)
       other_text_pin = {:content=>'tom这个小伙子到此一游',:format=>""}
       assert_difference("DiscussionParticipant.count",1) do
-        document.edit_text_pin(:text_pin_id=>new_pin.id,:user=>tom,:text_pin=>other_text_pin)
+        document.edit_text_pin(:text_pin_id=>new_pin.id,:email=>tom.email,:text_pin=>other_text_pin)
       end
-      document_changed = Document.find(:id=>document.id,:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei)
+      document_changed = document.reload
 
-      discussion_edit = DiscussionParticipant.last
-      assert_equal discussion_edit.participant,tom
-      assert_equal discussion_edit.document_tree,document_tree
+      dp_edit = DiscussionParticipant.last
+      assert_equal dp_edit.email,tom.email
+      assert_equal dp_edit.discussion,discussion
 
       assert_equal document_changed.joiners.size,3
       assert document_changed.joiners.include?(tom)
@@ -84,7 +83,7 @@ class DocumentTest < ActiveSupport::TestCase
 
       # tom再次编辑了而这个文本，不应该重复创建一条discussion
       assert_difference("DiscussionParticipant.count",0) do
-        document.edit_text_pin(:text_pin_id=>new_pin.id,:user=>tom,:text_pin=>other_text_pin)
+        document.edit_text_pin(:text_pin_id=>new_pin.id,:email=>tom.email,:text_pin=>other_text_pin)
       end
 
       # 修改之后的text_pin 有两个版本啦
@@ -93,8 +92,8 @@ class DocumentTest < ActiveSupport::TestCase
       assert_not_equal versions[0].struct,versions[1].struct
 
       # 有一个用户要删除其中的一个分支
-      document.remove_text_pin(:text_pin_id=>new_pin.id,:user=>tom)
-      document_changed_again = Document.find(:id=>document.id,:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei)
+      document.remove_text_pin(:text_pin_id=>new_pin.id,:email=>tom.email)
+      document_changed_again = document.reload
       assert_equal document_changed_again.text_pins.size,1
       assert_equal document_changed_again.joiners.size,3
       assert_equal document_changed_again.text_pin_tree[:root].size,1
@@ -125,7 +124,7 @@ class DocumentTest < ActiveSupport::TestCase
       `
       format = [{:type=>"bold",:from=>"1.1",:to=>"1.5"},{:type=>"italic",:from=>"1.2",:to=>"2.5"}]
       text_pin = {:content=>content,:format=>format}
-      document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei,
+      document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:email=>repo_lifei.email,
         :text_pin=>text_pin)
       text_pin = document.text_pins[0]
       xml_content = Nokogiri::XML(text_pin.struct)
@@ -142,9 +141,9 @@ class DocumentTest < ActiveSupport::TestCase
     document_test do |repo_lifei,repo_name|
       lucy = users(:lucy)
       tpin = {:content=>"关于XX的讨论",:format=>""}
-      document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei,:text_pin=>tpin)
+      document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:email=>repo_lifei.email,:text_pin=>tpin)
       text_pin = document.text_pins[0]
-      document.invisible_text_pin(:tid=>text_pin.id,:user=>lucy)
+      document.invisible_text_pin(:tid=>text_pin.id,:email=>lucy.email)
       document = document.reload
       visible_xml = document.visible_config.struct
       texts_invisibles = Nokogiri::XML(visible_xml).css("texts invisible")
@@ -156,14 +155,14 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal document.visible_config.tu_visible_for?(text_pin.id,repo_lifei),true
 
       # 重复屏蔽时
-      document.invisible_text_pin(:tid=>text_pin.id,:user=>lucy)
+      document.invisible_text_pin(:tid=>text_pin.id,:email=>lucy.email)
       document = document.reload
       visible_xml = document.visible_config.struct
       texts_invisibles = Nokogiri::XML(visible_xml).css("texts invisible")
       assert_equal texts_invisibles.size,1
 
       # 对这个文本 实施 解除屏蔽
-      document.visible_text_pin(:tid=>text_pin.id,:user=>lucy)
+      document.visible_text_pin(:tid=>text_pin.id,:email=>lucy.email)
       document = document.reload
       visible_xml = document.visible_config.struct
       texts_invisibles = Nokogiri::XML(visible_xml).css("texts invisible")
@@ -175,10 +174,9 @@ class DocumentTest < ActiveSupport::TestCase
     document_test do |repo_lifei,repo_name|
       tom, lucy = users(:tom), users(:lucy)
       tpin = {:content=>"关于XX的讨论",:format=>""}
-      document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:creator=>repo_lifei,:text_pin=>tpin)
-
+      document = DocumentSyncMail.create(:repo_name=>repo_name,:repo_user_id=>repo_lifei.id,:email=>repo_lifei.email,:text_pin=>tpin)
       # 屏蔽lucy同学的发言
-      document.invisible_text_pin_editor(:tuser=>repo_lifei,:user=>lucy)
+      document.invisible_text_pin_editor(:temail=>repo_lifei.email,:email=>lucy.email)
       document = document.reload
       text_pin = document.text_pins[0]
       visible_xml = document.visible_config.struct
@@ -191,7 +189,7 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal document.visible_config.uu_visible_for?(repo_lifei,tom),true
 
       # 对lucy同学 实施解除屏蔽
-      document.visible_text_pin_editor(:tuser=>repo_lifei,:user=>lucy)
+      document.visible_text_pin_editor(:temail=>repo_lifei.email,:email=>lucy.email)
       document = document.reload
       text_pin = document.text_pins[0]
       visible_xml = document.visible_config.struct

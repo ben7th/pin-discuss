@@ -3,21 +3,21 @@ class Document < MplistRecord
 
   SUB_PATH = "document_tree"
 
-  attr_reader :id,:repo_user_id,:creator,:repo_name,:struct,:commit_id,:text_pin
+  attr_reader :id,:repo_user_id,:email,:repo_name,:struct,:commit_id,:text_pin
   attr_writer :id
   def initialize(options)
     @repo_name = options[:repo_name]
     @repo_user_id = options[:repo_user_id]
     @commit_id = options[:commit_id]
     @text_pin = options[:text_pin]
-    @creator = options[:creator]
+    @email = options[:email]
     @struct = options[:struct]
     @id = options[:id]
     @nokogiri_struct = Nokogiri::XML(@struct) if !@struct.blank?
   end
 
-  # 在数据库中对应的document_tree
-  def document_tree
+  # 在数据库中对应的 discussion
+  def discussion
     Discussion.find(self.id)
   end
 
@@ -36,7 +36,7 @@ class Document < MplistRecord
     text_pin = options[:text_pin]
     errors.merge!('text_pin'=>"text_pin 不能为空") if text_pin.blank?
     errors.merge!('text_pin[:content]'=>"text_pin 的 content 不能为空") if text_pin && !(text_pin[:content] || text_pin[:html])
-    errors.merge!('creator'=>"creator 不能为空") if options[:creator].blank?
+    errors.merge!('email'=>"email 不能为空") if options[:email].blank?
     errors.merge!('repo_name'=>"repo_name 不能为空") if options[:repo_name].blank?
     errors
   end
@@ -45,35 +45,35 @@ class Document < MplistRecord
   def self.create(options)
     if self.create_valid?(options)
       document = Document.new(options)
-      document_tree = Discussion.create(:workspace_id=>document.repo_name)
-      document_id = document_tree.id.to_s
+      discussion = Discussion.create(:workspace_id=>document.repo_name)
+      document_id = discussion.id.to_s
       document.id = document_id
       text_pin_id = UUIDTools::UUID.random_create.to_s
       text_xml = TextPin.init_xml(document.text_pin)
-      document_xml = Document.init_xml(document.creator.email,text_pin_id)
+      document_xml = Document.init_xml(document.email,text_pin_id)
       visible_xml = VisibleConfig.init_xml
       data_and_tos = [
         {:data=>text_xml,:to=>File.join(TextPin::SUB_PATH,text_pin_id)},
         {:data=>document_xml,:to=>File.join(Document::SUB_PATH,document_id)},
         {:data=>visible_xml,:to=>File.join(VisibleConfig::SUB_PATH,document_id)}
       ]
-      document.commit_files_and_create_discussion_and_document_message(data_and_tos,document.creator,text_pin_id,options[:mmid])
+      document.commit_files_and_create_discussion_and_document_message(data_and_tos,document.email,text_pin_id,options[:mmid])
       return document.find_from_repository
     end
     return false
   end
   
   # 在一个讨论中进行回复
-  # document.reply(:mmid=>***,:text_pin_id=>text_pin.id,:user=>lucy,:text_pin=>{:content=>reply_content})
+  # document.reply(:mmid=>***,:text_pin_id=>text_pin.id,:email=>email,:text_pin=>{:content=>reply_content})
   def reply(options)
     text_pin_id = options[:text_pin_id]
-    user = options[:user]
+    email = options[:email]
 
-    return false if user.blank?
+    return false if email.blank?
     new_pin_id = UUIDTools::UUID.random_create.to_s
     text_xml = TextPin.init_xml(options[:text_pin])
 
-    add_joiner_to_struct(user)
+    add_joiner_to_struct(email)
     add_text_pin_to_struct(new_pin_id,text_pin_id).to_s
     document_xml = @nokogiri_struct.to_s
 
@@ -81,18 +81,18 @@ class Document < MplistRecord
       {:data=>text_xml,:to=>File.join(TextPin::SUB_PATH,new_pin_id)},
       {:data=>document_xml,:to=>File.join(Document::SUB_PATH,self.id)}
     ]
-    commit_files_and_create_discussion_and_document_message(params,user,new_pin_id,options[:mmid])
+    commit_files_and_create_discussion_and_document_message(params,email,new_pin_id,options[:mmid])
     return find_from_repository.find_text_pin(new_pin_id)
   end
 
-  def commit_files_and_create_discussion_and_document_message(params,user,text_pin_id,mmid)
-    commit_files_to_repository(params, user)
-    add_discussion(user)
-    create_document_message(text_pin_id,mmid)
+  def commit_files_and_create_discussion_and_document_message(params,email,text_pin_id,mmid)
+    commit_files_to_repository(params, email)
+    add_discussion(email)
+    create_discussion_message(text_pin_id,mmid)
   end
 
-  def create_document_message(text_pin_id,mmid)
-    DocumentMessage.create(:document_tree_id=>self.id,:text_pin_id=>text_pin_id,:mmid=>mmid)
+  def create_discussion_message(text_pin_id,mmid)
+    DiscussionMessage.create(:discussion_id=>self.id,:text_pin_id=>text_pin_id,:mmid=>mmid)
   end
 
   def git_repo
@@ -100,7 +100,7 @@ class Document < MplistRecord
   end
 
   def find_from_repository
-    Document.find(:creator=>self.creator,:repo_user_id=>self.repo_user_id,:repo_name=>self.repo_name,:id=>self.id)
+    Document.find(:repo_user_id=>self.repo_user_id,:repo_name=>self.repo_name,:id=>self.id)
   end
 
   def reload
@@ -127,9 +127,9 @@ class Document < MplistRecord
   # 根据一个file_info组装一个document
   def self.build_from_file_info(file_info)
     repo = file_info.repo
-    _creator = User.find_by_email(file_info.repo_commit.email)
+    email = file_info.repo_commit.email
     self.new(:repo_user_id=>repo.user.id,:repo_name=>repo.name,:id=>file_info.name,:commit_id=>file_info.repo_commit.id,
-      :struct=>file_info.data,:created_at=>file_info.repo_commit.date,:creator=>_creator)
+      :struct=>file_info.data,:created_at=>file_info.repo_commit.date,:email=>email)
   end
 
   # 讨论的简介
@@ -202,10 +202,10 @@ class Document < MplistRecord
   end
 
   # 增加讨论者 到 xml 中
-  def add_joiner_to_struct(user)
-    if @nokogiri_struct.at_css("joiner[email='#{user.email}']").blank?
+  def add_joiner_to_struct(email)
+    if @nokogiri_struct.at_css("joiner[email='#{email}']").blank?
       new_joiner = Nokogiri::XML::Node.new('joiner',@nokogiri_struct)
-      new_joiner["email"] = "#{user.email}"
+      new_joiner["email"] = "#{email}"
       @nokogiri_struct.at_css("joiners").add_child new_joiner
     end
   end
@@ -234,7 +234,7 @@ class Document < MplistRecord
   # 修改document中的某一个text_pin
   # :text_pin_id=>new_pin.id,:user=>tom,:text_pin=>{:content=>'tom这个小伙子到此一游'}
   def edit_text_pin(options)
-    add_joiner_to_struct(options[:user])
+    add_joiner_to_struct(options[:email])
     update_text_pin_updated_at_to_struct(options[:text_pin_id])
     document_xml = @nokogiri_struct.to_s
 
@@ -243,8 +243,8 @@ class Document < MplistRecord
       {:data=>text_xml,:to=>File.join(TextPin::SUB_PATH,options[:text_pin_id])},
       {:data=>document_xml,:to=>File.join(Document::SUB_PATH,self.id)}
     ]
-    if commit_files_to_repository(params, options[:user])
-      self.add_discussion(options[:user])
+    if commit_files_to_repository(params, options[:email])
+      self.add_discussion(options[:email])
       return true
     end
     false
@@ -258,12 +258,12 @@ class Document < MplistRecord
     end
     document_xml = @nokogiri_struct.to_s
     params = [{:data=>document_xml,:to=>File.join(Document::SUB_PATH,self.id)}]
-    return commit_files_to_repository(params,options[:user])
+    return commit_files_to_repository(params,options[:email])
   end
 
   # 把文件提交到版本库中去
-  def commit_files_to_repository(data_and_tos,user)
-    git_repo.add_files(data_and_tos,user) ? true : false
+  def commit_files_to_repository(data_and_tos,email)
+    git_repo.add_files(data_and_tos,email) ? true : false
   end
 
   # 所有提交的历史记录
@@ -289,34 +289,34 @@ class Document < MplistRecord
   end
 
   # 某人选择屏蔽某text_pin - 同时也就屏蔽了这个分支
-  # 参数 :text_pin_id=>text_pin_id,:user=>user
+  # 参数 :text_pin_id=>text_pin_id,:email=>email
   def invisible_text_pin(options)
     update_invisible_struct_xml(options) do |struct_xml,new_visible|
-      return if struct_xml.css("invisible[tid='#{options[:tid]}'][user='#{options[:user].email}']").size != 0
-      new_visible["user"] = options[:user].email
+      return if struct_xml.css("invisible[tid='#{options[:tid]}'][user='#{options[:email]}']").size != 0
+      new_visible["user"] = options[:email]
       new_visible["tid"] = options[:tid]
       struct_xml.at_css("texts").add_child new_visible
     end
   end
 
   # 某人解除对某text_pin
-  # 参数 :text_pin_id=>text_pin_id,:user=>user
+  # 参数 :text_pin_id=>text_pin_id,:email=>email
   def visible_text_pin(options)
     struct_xml = Nokogiri::XML(self.visible_config.struct)
-    struct_xml.css("texts invisible[tid='#{options[:tid]}'][user='#{options[:user].email}']").each do |invisible|
+    struct_xml.css("texts invisible[tid='#{options[:tid]}'][user='#{options[:email]}']").each do |invisible|
       invisible.remove
     end
     params = [{:data=>struct_xml.to_s,:to=>visible_config_path}]
-    return commit_files_to_repository(params,options[:user])
+    return commit_files_to_repository(params,options[:email])
   end
 
   # 某人选择屏蔽某text_pin的作者 - 同时也就屏蔽了这个作者所有text以及下面的分支
-  # 参数 :tuser=>repo_lifei,:user=>lucy
+  # 参数 :temail=>email_1,:email=>email_2
   def invisible_text_pin_editor(options)
     update_invisible_struct_xml(options) do |struct_xml,new_visible|
-      return if struct_xml.css("invisible[tuser='#{options[:tuser].email}'][user='#{options[:user].email}']").size != 0
-      new_visible["user"] = options[:user].email
-      new_visible["tuser"] = options[:tuser].email
+      return if struct_xml.css("invisible[tuser='#{options[:temail]}'][user='#{options[:email]}']").size != 0
+      new_visible["user"] = options[:email]
+      new_visible["tuser"] = options[:temail]
       struct_xml.at_css("users").add_child new_visible
     end
   end
@@ -325,11 +325,11 @@ class Document < MplistRecord
   # 参数 :tuser=>repo_lifei,:user=>lucy
   def visible_text_pin_editor(options)
     struct_xml = Nokogiri::XML(self.visible_config.struct)
-    struct_xml.css("users invisible[tuser='#{options[:tuser].email}'][user='#{options[:user].email}']").each do |invisible|
+    struct_xml.css("users invisible[tuser='#{options[:temail]}'][user='#{options[:email]}']").each do |invisible|
       invisible.remove
     end
     params = [{:data=>struct_xml.to_s,:to=>visible_config_path}]
-    return commit_files_to_repository(params,options[:user])
+    return commit_files_to_repository(params,options[:email])
   end
 
   def update_invisible_struct_xml(options)
@@ -337,20 +337,20 @@ class Document < MplistRecord
     new_visible = Nokogiri::XML::Node.new('invisible',struct_xml)
     yield(struct_xml,new_visible)
     params = [{:data=>struct_xml.to_s,:to=>visible_config_path}]
-    return commit_files_to_repository(params,options[:user])
+    return commit_files_to_repository(params,options[:email])
   end
 
   # 话题参与记录
-  def add_discussion(participant)
+  def add_discussion(email)
     # 增加 参与者到 工作空间
-    workspace = document_tree.workspace
-    if workspace.user != participant
-      MembershipResource.create(:workspace_id=>workspace.id,:email=>participant.email)
+    workspace = discussion.workspace
+    if workspace.user.email != email
+      MembershipResource.create(:workspace_id=>workspace.id,:email=>email)
     end
-    hash = {:participant_id=>participant.id,:document_tree_id=>document_tree.id}
-    discussion = Discussion.find(:first,:conditions=>hash)
-    return Discussion.create(hash) if discussion.blank?
-    discussion.update_attributes(:hide=>false)
+    hash = {:email=>email,:discussion_id=>discussion.id}
+    discussion_participant = DiscussionParticipant.find(:first,:conditions=>hash)
+    return DiscussionParticipant.create(hash) if discussion_participant.blank?
+    discussion_participant.update_attributes(:hide=>false)
   end
 
   # 某用户在这个话题中屏蔽的所有text_pins
