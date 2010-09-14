@@ -1,4 +1,4 @@
-class DocumentMessage < ActiveRecord::Base
+class DiscussionMessage < ActiveRecord::Base
   belongs_to :document_tree
 
   validates_presence_of :mmid

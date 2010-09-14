@@ -1,17 +1,13 @@
 class Discussion < ActiveRecord::Base
-  belongs_to :participant,:class_name=>"User"
-  belongs_to :document_tree
 
-  validates_presence_of :document_tree_id
+  has_many :discussion_invitations
+  belongs_to :workspace
+  has_many :document_mails
 
-  def hide!
-    self.update_attributes(:hide=>true)
-  end
-
-  module UserMethods
-    def self.included(base)
-      base.has_many :discussions,:foreign_key=>"participant_id",:conditions=>["hide is null or hide = 0"]
-    end
+  validates_presence_of :workspace_id
+  
+  def document
+    Document.find(:repo_user_id=>self.workspace.user_id,:repo_name=>self.workspace.id,:id=>self.id.to_s)
   end
 
 end
