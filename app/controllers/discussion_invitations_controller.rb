@@ -26,9 +26,9 @@ class DiscussionInvitationsController < ApplicationController
   end
 
   def  _login_show(user)
-    document_tree = @discussion_invitation.document_tree
+    discussion = @discussion_invitation.discussion
     self.current_user = user
-    workspace = document_tree.workspace
-    redirect_to document_path(:workspace_id=>workspace.id,:id=>document_tree.id)
+    workspace = discussion.workspace
+    redirect_to document_path(:workspace_id=>workspace.id,:id=>discussion.id)
   end
 end

@@ -1,4 +1,4 @@
 .p 当前您正使用账号 #{current_user.email} 登录，但您正被邀请使用 #{@discussion_invitation.email} 参与讨论话题，是否切换登录账号？
 =link_to "确定切换账号",direct_login_discussion_invitation_path,:method=>:post
 =link_to "关闭退出","#",:onclick=>"window.close();"
-=link_to "不切换，以当前用户参与讨论",document_path(:workspace_id=>@discussion_invitation.document_tree.workspace_id,:id=>@discussion_invitation.document_tree.id)
+=link_to "不切换，以当前用户参与讨论",document_path(:workspace_id=>@discussion_invitation.discussion.workspace_id,:id=>@discussion_invitation.discussion_id)

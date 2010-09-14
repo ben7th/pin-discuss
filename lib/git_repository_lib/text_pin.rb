@@ -1,8 +1,8 @@
 require 'uuidtools'
 
 class TextPin < MplistRecord
-  attr_reader :id,:struct,:repo_user_id,:repo_name,:created_at,:creator,:commit_id
-  attr_writer :struct,:created_at,:creator
+  attr_reader :id,:struct,:repo_user_id,:repo_name,:created_at,:email,:commit_id
+  attr_writer :struct,:created_at,:email
   SUB_PATH = "text"
 
   def initialize(options)
@@ -23,10 +23,10 @@ class TextPin < MplistRecord
   # 根据一个file_info组装一个text_pin
   def self.build_from_file_info(file_info)
     repo = file_info.repo
-    _creator = User.find_by_email(file_info.repo_commit.email)
-
+    _email = file_info.repo_commit.email
+    
     TextPin.new(:repo_user_id=>repo.user.id,:repo_name=>repo.name,:id=>file_info.name,:commit_id=>file_info.repo_commit.id,
-      :struct=>file_info.data,:created_at=>file_info.repo_commit.date,:creator=>_creator)
+      :struct=>file_info.data,:created_at=>file_info.repo_commit.date,:email=>_email)
   end
 
   # 所有提交的历史记录

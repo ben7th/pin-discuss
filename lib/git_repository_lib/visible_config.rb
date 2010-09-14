@@ -32,7 +32,7 @@ class VisibleConfig
     hash = {}
     Nokogiri::XML(struct).css('texts invisible').each do |invisible|
       tid = invisible['tid']
-      user = User.find_by_email(invisible['user'])
+      user = invisible['user']
       if hash.key?(tid)
         hash[tid] << user
         next
@@ -53,8 +53,8 @@ class VisibleConfig
     return @users_visibles if @users_visibles
     hash = {}
     Nokogiri::XML(struct).css('users invisible').each do |invisible|
-      author = User.find_by_email(invisible['tuser'])
-      user = User.find_by_email(invisible['user'])
+      author = invisible['tuser']
+      user = invisible['user']
       if hash.key?(author)
         hash[author] << user
         next
@@ -65,8 +65,8 @@ class VisibleConfig
   end
 
   # 检查某个人对某作者的可见状态
-  def uu_visible_for?(tuser,observer)
-    !(users_visibles[tuser] && users_visibles[tuser].include?(observer))
+  def uu_visible_for?(temail,observer_email)
+    !(users_visibles[temail] && users_visibles[temail].include?(observer_email))
   end
   
 end

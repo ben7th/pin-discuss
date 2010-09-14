@@ -28,12 +28,12 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal discussion.workspace.id,repo_name
 
       assert_equal document.email,repo_lifei.email
-      assert_equal document.joiners.size,1
-      assert document.joiners.include?(repo_lifei)
+      assert_equal document.joiner_emails.size,1
+      assert document.joiner_emails.include?(repo_lifei.email)
     
       assert_equal document.text_pins.size,1
       text_pin = document.text_pins[0]
-      assert_equal text_pin.creator,repo_lifei
+      assert_equal text_pin.email,repo_lifei.email
       assert_equal text_pin.struct,TextPin.init_xml({:content=>content})
       # 判断 配置文件 是否存在
       assert File.exist?(File.join(document.git_repo.path,VisibleConfig::SUB_PATH,document.id))
@@ -51,15 +51,15 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal dp_reply.discussion,discussion
 
       document = document.reload
-      assert_equal document.joiners.size,2
-      assert document.joiners.include?(repo_lifei)
-      assert document.joiners.include?(lucy)
+      assert_equal document.joiner_emails.size,2
+      assert document.joiner_emails.include?(repo_lifei.email)
+      assert document.joiner_emails.include?(lucy.email)
       assert_equal document.text_pins.size,2
       text_pins = document.text_pins
       text_pins.delete_if{|tp| tp.id == text_pin.id}
       assert_equal text_pins.size,1
       new_pin = text_pins[0]
-      assert_equal new_pin.creator,lucy
+      assert_equal new_pin.email,lucy.email
       assert_equal new_pin.struct,TextPin.init_xml({:content=>reply_content})
 
       # 编辑讨论
@@ -74,12 +74,12 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal dp_edit.email,tom.email
       assert_equal dp_edit.discussion,discussion
 
-      assert_equal document_changed.joiners.size,3
-      assert document_changed.joiners.include?(tom)
+      assert_equal document_changed.joiner_emails.size,3
+      assert document_changed.joiner_emails.include?(tom.email)
       assert_equal document_changed.text_pins.size,2
       text_pin_changed = document_changed.find_text_pin(new_pin.id)
       assert_equal text_pin_changed.plain_content,"tom这个小伙子到此一游"
-      assert_equal text_pin_changed.creator,tom
+      assert_equal text_pin_changed.email,tom.email
 
       # tom再次编辑了而这个文本，不应该重复创建一条discussion
       assert_difference("DiscussionParticipant.count",0) do
@@ -95,7 +95,7 @@ class DocumentTest < ActiveSupport::TestCase
       document.remove_text_pin(:text_pin_id=>new_pin.id,:email=>tom.email)
       document_changed_again = document.reload
       assert_equal document_changed_again.text_pins.size,1
-      assert_equal document_changed_again.joiners.size,3
+      assert_equal document_changed_again.joiner_emails.size,3
       assert_equal document_changed_again.text_pin_tree[:root].size,1
 
     end
@@ -182,11 +182,11 @@ class DocumentTest < ActiveSupport::TestCase
       visible_xml = document.visible_config.struct
       users_invisibles = Nokogiri::XML(visible_xml).css("users invisible")
       assert_equal users_invisibles.size,1
-      assert_equal users_invisibles[0]['tuser'],text_pin.creator.email
+      assert_equal users_invisibles[0]['tuser'],text_pin.email
       assert_equal users_invisibles[0]['user'],lucy.email
 
-      assert_equal document.visible_config.uu_visible_for?(repo_lifei,lucy),false
-      assert_equal document.visible_config.uu_visible_for?(repo_lifei,tom),true
+      assert_equal document.visible_config.uu_visible_for?(repo_lifei.email,lucy.email),false
+      assert_equal document.visible_config.uu_visible_for?(repo_lifei.email,tom.email),true
 
       # 对lucy同学 实施解除屏蔽
       document.visible_text_pin_editor(:temail=>repo_lifei.email,:email=>lucy.email)
