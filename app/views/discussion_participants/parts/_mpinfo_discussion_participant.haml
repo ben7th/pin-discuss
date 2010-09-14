@@ -1,0 +1,5 @@
+-discussion = discussion_participant.discussion
+-document = discussion.document
+
+=link_to h(document.title),document_path(:workspace_id=>discussion.workspace_id,:id=>discussion.id)
+=link_to_remote "删除",:url=>discussion_participant_path(discussion_participant),:method=>:delete
