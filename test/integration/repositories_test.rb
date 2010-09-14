@@ -73,7 +73,7 @@ class RepositoriesTest < ActionController::IntegrationTest
     file_name = File.basename(file_path)
     assert !File.exist?("#{GitRepository.repository_path(user.id,repo_name)}/#{sub_path}/#{file_name}")
     repo_file_path = File.join(sub_path,file_name)
-    GitRepository.find(user.id,repo_name).add_files([{:from=>file_path,:to=>repo_file_path}],user)
+    GitRepository.find(user.id,repo_name).add_files([{:from=>file_path,:to=>repo_file_path}],user.email)
     assert File.exist?("#{GitRepository.repository_path(user.id,repo_name)}/#{sub_path}/#{file_name}")
   end
 
