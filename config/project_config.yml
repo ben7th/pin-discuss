@@ -1,12 +1,12 @@
 development:
   name: discuss
-  url: http://192.168.1.8:6004/
-  master_url: http://192.168.1.8:3000/
+  url: http://dev.2010.mindpin.com/
+  master_url: http://dev.2010.mindpin.com/
 
 test:
   name: discuss
-  url: http://192.168.1.8:6004/
-  master_url: http://192.168.1.8:3000/
+  url: http://dev.2010.mindpin.com/
+  master_url: http://dev.2010.mindpin.com/
 
 production:
   name: discuss
