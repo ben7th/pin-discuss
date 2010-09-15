@@ -1,10 +1,12 @@
 require 'rubygems'
 require 'beanstalk-client'
-require File.join(File.dirname(__FILE__), '../..', 'config', 'environment') if !defined?(RAILS_ROOT)
 
 if ["development","test","production",nil].include?(ARGV[0])
   RAILS_ENV = (ARGV[0] || "production")
 end
+
+require File.join(File.dirname(__FILE__), '../..', 'config', 'environment') if !defined?(RAILS_ROOT)
+
 
 beanstalk = Beanstalk::Pool.new("127.0.0.1:11301")
 @logger = Logger.new("#{RAILS_ROOT}/log/queue.log")
