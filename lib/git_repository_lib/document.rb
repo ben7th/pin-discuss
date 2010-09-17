@@ -169,21 +169,21 @@ class Document < MplistRecord
     sign
   end
 
-  def _text_pin_arr(text_node,observer)
+  def _text_pin_arr(text_node,observer_email)
     text_node.xpath("./text").map do |tn|
-      if visable?(tn,observer)
+      if visable?(tn,observer_email)
         text_pin = TextPin.find(:commit_id=>self.commit_id,:repo_user_id=>self.repo_user_id,:repo_name=>self.repo_name,:id=>tn["id"])
-        if observer.blank? || self.visible_config.uu_visible_for?(text_pin.creator,observer)
-          {:text_pin=>text_pin, :children=>_text_pin_arr(tn,observer)}
+        if observer_email.blank? || self.visible_config.uu_visible_for?(text_pin.email,observer_email)
+          {:text_pin=>text_pin, :children=>_text_pin_arr(tn,observer_email)}
         end
       end
     end.compact
   end
 
   # 这个讨论的所有参与者
-  def joiners
+  def joiner_emails
     @nokogiri_struct.css("joiners joiner").map do |joiner_node|
-      User.find_by_email(joiner_node["email"])
+      joiner_node["email"]
     end
   end
 
@@ -370,25 +370,25 @@ class Document < MplistRecord
   end
 
   # 某用户在这个话题中屏蔽的所有人
-  def invisible_users_of(user)
+  def invisible_users_of(email)
     struct_xml = Nokogiri::XML(self.visible_config.struct)
-    struct_xml.css("users invisible[user='#{user.email}']").map do |invisible|
-      User.find_by_email(invisible["tuser"])
+    struct_xml.css("users invisible[user='#{email}']").map do |invisible|
+      invisible["tuser"]
     end
   end
 
   # 发送邀请邮件
   def invite(user,email)
     return false if joined?(email)
-    di = DiscussionInvitation.find(:first,:conditions=>{:email=>email,:document_tree_id=>document_tree.id})
+    di = DiscussionInvitation.find(:first,:conditions=>{:email=>email,:discussion_id=>discussion.id})
     if di.blank?
-      di = DiscussionInvitation.create(:inviter=>user,:email=>email,:document_tree_id=>document_tree.id)
+      di = DiscussionInvitation.create(:inviter=>user,:email=>email,:discussion_id=>discussion.id)
     end
     Mailer.deliver_invite_to_document(di,self)
   end
 
   # 判断这个邮箱的记录是否已经参与了这个话题
   def joined?(email)
-    self.joiners.map{|user_temp|user_temp.email}.include?(email)
+    self.joiner_emails.include?(email)
   end
 end

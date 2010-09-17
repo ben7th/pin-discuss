@@ -2,7 +2,7 @@ class Workspace < ActiveRecord::Base
   set_readonly(true)
   build_database_connection("pin-workspace")
   belongs_to :user
-  has_many :document_trees
+  has_many :discussions
 
 
   # 在这个工作空间下创建一个讨论

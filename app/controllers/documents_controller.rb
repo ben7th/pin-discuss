@@ -70,7 +70,7 @@ class DocumentsController < ApplicationController
 
   # 屏蔽某个人
   def invisible_uu
-    @document.invisible_text_pin_editor(:tuser=>User.find(params[:tuser_id]),:user=>current_user)
+    @document.invisible_text_pin_editor(:temail=>params[:temail],:email=>current_user.email)
     refresh_local_page
   end
 
@@ -82,7 +82,7 @@ class DocumentsController < ApplicationController
 
   # 解封某人
   def visible_uu
-    @document.visible_text_pin_editor(:tuser=>User.find(params[:tuser_id]),:user=>current_user)
+    @document.visible_text_pin_editor(:temail=>params[:temail],:email=>current_user.email)
     refresh_local_page
   end
 

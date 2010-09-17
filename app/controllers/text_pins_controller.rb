@@ -3,7 +3,7 @@ class TextPinsController < ApplicationController
   before_filter :per_load
   def per_load
     if params[:document_id]
-      @document = DocumentTree.find_by_workspace_id_and_id(params[:workspace_id],params[:document_id]).document
+      @document = Discussion.find_by_workspace_id_and_id(params[:workspace_id],params[:document_id]).document
     end
     @text_pin = @document.find_text_pin(params[:id]) if params[:id]
   end
@@ -18,7 +18,7 @@ class TextPinsController < ApplicationController
   end
 
   def update
-    if @document.edit_text_pin(:text_pin_id=>params[:id],:text_pin=>params[:text_pin],:user=>current_user)
+    if @document.edit_text_pin(:text_pin_id=>params[:id],:text_pin=>params[:text_pin],:email=>current_user.email)
       render_ui do |ui|
         text_pin = @document.find_text_pin(params[:id])
         ui.mplist :update,text_pin,:partial=>"documents/parts/detail_text_pin",:locals=>{:document=>@document,:text_pin=>text_pin}
@@ -30,7 +30,7 @@ class TextPinsController < ApplicationController
   end
 
   def destroy
-    if @document.remove_text_pin({:text_pin_id=>params[:id],:user=>current_user})
+    if @document.remove_text_pin({:text_pin_id=>params[:id],:email=>current_user.email})
       render_ui.mplist :remove,@text_pin
     end
   end

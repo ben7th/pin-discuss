@@ -2,7 +2,7 @@
 %p
   = "#{@discussion_invitation.inviter.email} 通过mindpin邀请你参加讨论："
   = @document.title
-  = "#{@document.joiners.size}人参加"
+  = "#{@document.joiner_emails.size}人参加"
   = "回复#{@document.text_pins.size}次"
   -url = File.join(pin_url_for("discuss"),discussion_invitation_path(:id=>@discussion_invitation.uuid_code))
   = link_to url,url,:target=>'_blank'

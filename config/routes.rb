@@ -40,7 +40,7 @@ ActionController::Routing::Routes.draw do |map|
 
   #--------------------
   map.resources :discussion_participants
-  map.resources :discussion_invitations,:member=>{:registe=>:post,:direct_login=>:post}
+  map.resources :discussion_invitations,:member=>{:registe=>:post,:direct_login=>:get}
 
 
 end
