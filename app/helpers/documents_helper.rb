@@ -4,6 +4,22 @@ module DocumentsHelper
     sprintf("%.2f%",number)
   end
 
+  def pie_xml(hash)
+    title = "个人操作统计"
+    set_str = ""
+    p hash
+    hash.each do |key,hash|
+      name = key
+      value = sprintf("%0.2f",hash[:percent]).to_f
+      set_str << %`<set name="#{name}" value="#{value}"/>`
+    end
+    %`
+      <graph caption="#{title}"  bgAlpha="0" pieBorderAlpha="50" pieRadius="120"  pieYScale='30' toolTipBgColor="#000000" baseFontColor="#999999" baseFontSize="20" showNames="1"  decimalPrecision="0" >
+        #{set_str}
+      </graph>
+    `
+  end
+
   def pie_image(hash)
     value_array = []
     hash.each do |key,hash|
