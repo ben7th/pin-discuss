@@ -5,7 +5,8 @@ class DocumentsController < ApplicationController
   def per_load
     @workspace = Workspace.find(params[:workspace_id])
     @user = @workspace.user
-    @document = Discussion.find(params[:id]).document if params[:id]
+    @discussion = Discussion.find(params[:id]) if params[:id]
+    @document = @discussion.document if @discussion
   end
 
   def index
@@ -105,4 +106,7 @@ class DocumentsController < ApplicationController
     end
   end
 
+  # 话题参与者贡献度
+  def oprations_statistic
+  end
 end

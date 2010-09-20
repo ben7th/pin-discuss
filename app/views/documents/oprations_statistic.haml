@@ -1,0 +1,10 @@
+.clearfix
+  .push_1.grid_5 参与人
+  .push_1.grid_8 话题贡献度百分比
+
+-@discussion.oprations_statistic.each do |name,baifen|
+  .clearfix
+    .push_1.grid_5=name
+    .push_1.grid_6
+      %div{:style=>"height:15px;background-color:#FF7F2F;width:#{baifen}"}
+    .push_1.grid_2=baifen
