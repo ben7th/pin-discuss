@@ -108,5 +108,8 @@ class DocumentsController < ApplicationController
 
   # 话题参与者贡献度
   def oprations_statistic
+    if params[:email]
+      render :template=>"/documents/oprations_statistic_personal"
+    end
   end
 end

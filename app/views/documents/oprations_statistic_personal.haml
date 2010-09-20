@@ -1,0 +1,12 @@
+-@discussion.oprations_statistic_of(params[:email]).each do |name,hash|
+  .clearfix
+    .push_1.grid_5=name
+    .push_1.grid_6
+      =to_percent(hash[:percent])
+    .push_1.grid_2=hash[:count]
+#container
+
+-content_for :javascripts do
+  =javascript_include_tag "views/discuss/highcharts/highcharts.src.js"
+
+  =pie_image(@discussion.oprations_statistic_of(params[:email]))
