@@ -150,9 +150,9 @@ class DocumentTest < ActiveSupport::TestCase
       assert_equal texts_invisibles.size,1
       assert_equal texts_invisibles[0]['tid'],text_pin.id
       assert_equal texts_invisibles[0]['user'],lucy.email
-
-      assert_equal document.visible_config.tu_visible_for?(text_pin.id,lucy),false
-      assert_equal document.visible_config.tu_visible_for?(text_pin.id,repo_lifei),true
+      
+      assert_equal document.visible_config.tu_visible_for?(text_pin.id,lucy.email),false
+      assert_equal document.visible_config.tu_visible_for?(text_pin.id,repo_lifei.email),true
 
       # 重复屏蔽时
       document.invisible_text_pin(:tid=>text_pin.id,:email=>lucy.email)
