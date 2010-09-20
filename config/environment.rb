@@ -66,7 +66,6 @@ Rails::Initializer.run do |config|
   #  config.i18n.default_locale = :cn
   config.i18n.default_locale = :cn
 
-  config.load_paths += %W( #{RAILS_ROOT}/lib/git_repository_lib )
   config.load_paths += %W( #{RAILS_ROOT}/lib/mail_receive )
 end
 
