@@ -1,14 +1,14 @@
 development:
   name: discuss
-  url: http://dev.2010.mindpin.com/
-  master_url: http://dev.2010.mindpin.com/
+  url: http://dev.discuss.2010.mindpin.com/
+  master_url: http://dev.config-manager.2010.mindpin.com/
 
 test:
   name: discuss
-  url: http://dev.2010.mindpin.com/
-  master_url: http://dev.2010.mindpin.com/
+  url: http://dev.discuss.2010.mindpin.com/
+  master_url: http://dev.config-manager.2010.mindpin.com/
 
 production:
   name: discuss
-  url: http://2010.mindpin.com/
-  master_url: http://2010.mindpin.com/
+  url: http://discuss.2010.mindpin.com/
+  master_url: http://config-manager.2010.mindpin.com/
