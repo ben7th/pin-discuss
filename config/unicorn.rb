@@ -15,6 +15,7 @@ pid pid_file_name
 
 # REE GC
 if GC.respond_to?(:copy_on_write_friendly=)
+
   GC.copy_on_write_friendly = true
 end
 
