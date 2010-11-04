@@ -1,5 +1,6 @@
 class DocumentsController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token,:only=>:add_on_create
   before_filter :login_required
   before_filter :per_load
   def per_load
@@ -31,6 +32,14 @@ class DocumentsController < ApplicationController
     _new_rjs
   end
 
+  def add_on_create
+    document = @workspace.create_document(:email=>current_user.email,:text_pin=>params[:text_pin])
+    if document
+      return render :text=>"200",:status=>200
+    end
+    return render :text=>"500",:status=>500
+  end
+
   def _new_rjs
     render_ui do |ui|
       ui.fbox :show,:title=>"新建讨论",:partial=>"/documents/form_new"
@@ -50,12 +59,12 @@ class DocumentsController < ApplicationController
     options = {:text_pin_id=>params[:text_pin_id],:email=>current_user.email,:text_pin=>params[:text_pin]}
     text_pin = DocumentSyncMail.reply(@document,options)
     if text_pin
-        parent = (params[:text_pin_id] ? @document.find_text_pin(params[:text_pin_id]) : nil)
-        for_value = (parent.blank? ? text_pin : [parent,text_pin])
-        render_ui do |ui|
-          ui.mplist :insert,for_value,:partial=>"documents/parts/detail_text_pin",:locals=>{:document=>@document,:text_pin=>text_pin}
-          ui.fbox(:close)
-        end
+      parent = (params[:text_pin_id] ? @document.find_text_pin(params[:text_pin_id]) : nil)
+      for_value = (parent.blank? ? text_pin : [parent,text_pin])
+      render_ui do |ui|
+        ui.mplist :insert,for_value,:partial=>"documents/parts/detail_text_pin",:locals=>{:document=>@document,:text_pin=>text_pin}
+        ui.fbox(:close)
+      end
     end
   end
 

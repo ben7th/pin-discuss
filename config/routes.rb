@@ -37,6 +37,7 @@ ActionController::Routing::Routes.draw do |map|
     :reply_form=>:get,:reply=>:post,:raw=>:get,:invite_form=>:get,:invite=>:post,:oprations_statistic=>:get} do |document|
     document.resources :text_pins,:member=>{:raw=>:get}
   end
+  map.add_on_create_discussion "/add_on_create_discussion",:controller=>"documents",:action=>"add_on_create",:conditions=>{:method=>:post}
 
   #--------------------
   map.resources :discussion_participants
