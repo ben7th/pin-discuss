@@ -39,4 +39,18 @@ class TextPinsController < ApplicationController
     render :xml=>@text_pin.struct
   end
 
+  def convert_mindmap
+    res = Net::HTTP.post_form URI.parse(pin_url_for('pin-mindmap-editor','/mindmaps/bundles')),
+      :bundle=>@text_pin.plain_content,:req_user_id=>current_user.id
+
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      url = pin_url_for('pin-app-adapter','app/mindmap_editor')
+      render_ui.fbox :show,:content=>"操作成功，<a target='_blank' href='#{url}'>查看详情<a>"
+    else
+      render_ui.fbox :show,:content=>"操作失败"
+    end
+
+  end
+
 end

@@ -14,6 +14,7 @@
   =link_to_remote "删除",:url=>document_text_pin_path(options),:method=>:delete,:confirm=>"确定删除？"
   =link_to_remote "屏蔽这个文本",:url=>invisible_tu_document_path(:tid=>text_pin.id),:method=>:put
   =link_to_remote "屏蔽这个作者",:url=>invisible_uu_document_path(:temail=>text_pin.email),:method=>:put
+  =link_to_remote "转成导图",:url=>convert_mindmap_document_text_pin_path(options),:method=>:post
 
   -edit_info = text_pin.edit_info
   -if !edit_info.blank?

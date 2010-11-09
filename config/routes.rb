@@ -35,7 +35,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :documents, :path_prefix => '/workspaces/:workspace_id',
     :member=>{:invisible_tu=>:put,:invisible_uu=>:put,:visible_tu=>:put,:visible_uu=>:put,
     :reply_form=>:get,:reply=>:post,:raw=>:get,:invite_form=>:get,:invite=>:post,:oprations_statistic=>:get} do |document|
-    document.resources :text_pins,:member=>{:raw=>:get}
+    document.resources :text_pins,:member=>{:raw=>:get,:convert_mindmap=>:post}
   end
   map.add_on_create_discussion "/add_on_create_discussion",:controller=>"documents",:action=>"add_on_create",:conditions=>{:method=>:post}
 
