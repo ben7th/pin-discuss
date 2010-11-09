@@ -39,6 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.add_on_create_discussion "/add_on_create_discussion",:controller=>"documents",:action=>"add_on_create",:conditions=>{:method=>:post}
 
+  map.mindmap_to_bundle "/documents/mindmaps",:controller=>"mindmaps",:action=>"create",:conditions=>{:method=>:post}
   #--------------------
   map.resources :discussion_participants
   map.resources :discussion_invitations,:member=>{:registe=>:post,:direct_login=>:get}
