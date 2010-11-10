@@ -35,7 +35,7 @@ class DocumentsController < ApplicationController
   def add_on_create
     document = @workspace.create_document(:email=>current_user.email,:text_pin=>params[:text_pin])
     if document
-      return render :text=>"200",:status=>200
+      return render :text=>document_url(:id=>document.id,:workspace_id=>@workspace.id),:status=>200
     end
     return render :text=>"500",:status=>500
   end
