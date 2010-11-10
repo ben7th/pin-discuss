@@ -87,4 +87,16 @@ module DocumentsHelper
     `
   end
 
+  def document_title(document)
+    title = document.title
+
+    match_data = title.match(/<bundle>.*<\/bundle>(.*)/)
+    if match_data
+      bundle_title = match_data[1]
+      bundle_title = "无标题" if bundle_title.blank?
+      title = "bundle(#{bundle_title})"
+    end
+    title
+  end
+
 end
