@@ -40,8 +40,12 @@ class TextPinsController < ApplicationController
   end
 
   def convert_mindmap
+    require 'digest/sha1'
+    key = CoreService::PROJECT_CONFIG["service_key"]
+    service_token = Digest::SHA1.hexdigest("#{current_user.id}#{key}")
+
     res = Net::HTTP.post_form URI.parse(pin_url_for('pin-mindmap-editor','/mindmaps/bundles')),
-      :bundle=>@text_pin.plain_content,:req_user_id=>current_user.id
+      :bundle=>@text_pin.plain_content,:req_user_id=>current_user.id,:service_token=>service_token
 
     case res
     when Net::HTTPSuccess, Net::HTTPRedirection

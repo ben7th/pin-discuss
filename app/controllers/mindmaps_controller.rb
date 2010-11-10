@@ -3,10 +3,16 @@ class MindmapsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :check_token
   def check_token
-#    params[:req_user_id]
-#    params[:token]
-    @user = User.find(params[:req_user_id])
-    return true
+    key = CoreService::PROJECT_CONFIG["service_key"]
+    req_user_id = params[:req_user_id]
+    token = params[:service_token]
+
+    require 'digest/sha1'
+    if(Digest::SHA1.hexdigest("#{req_user_id}#{key}") == token)
+      @user = User.find(req_user_id)
+    else
+      render :text=>401,:status=>401
+    end
   end
 
   # req_user_id workspace_id mindmap
